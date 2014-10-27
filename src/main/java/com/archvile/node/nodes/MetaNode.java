@@ -19,7 +19,7 @@ public class MetaNode extends AbstractNode {
 		return name;
 	}
 
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 
@@ -27,7 +27,7 @@ public class MetaNode extends AbstractNode {
 		return content;
 	}
 
-	public void setContent(String content) {
+	private void setContent(String content) {
 		this.content = content;
 	}
 

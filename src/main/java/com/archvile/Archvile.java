@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import org.jsoup.Jsoup;
@@ -37,8 +38,23 @@ public class Archvile {
 	public void crawl(String url) throws IOException {
 		log.info("Parsing " + url + "...");
 		Document document = getDocumentFromUrl(url);
+		log.info(document.toString());
 		List<Element> elements = processChildren(document.children());
 		Page page = getPage(elements);
+		
+		for (DivNode div : page.getDivs()) {
+			if (div.hasText()) {
+				if (div.getText().length() == 1){
+					char character = div.getText().charAt(0);
+					int ascii = (int) character;
+					String chars = String.valueOf(character);
+					log.info("Div-->" + ascii);
+					log.info("Div escaped-->" + StringEscapeUtils.escapeHtml(chars));
+					log.info("DIV: " + div.getText() + " (" + div.getText().length() + ") | (" + div.getText().trim().length() + ")");	
+				}
+			}
+		}
+		
 		log.info("Done");
 	}
 
