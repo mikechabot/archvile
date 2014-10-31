@@ -1,4 +1,4 @@
-package com.archvile.node.nodes;
+package com.archvile.node;
 
 import com.archvile.utils.StringUtil;
 
@@ -9,10 +9,12 @@ public class Nodes {
 
 	public enum NodeName {
 		A,
+		BODY,
 		DIV,
+		H1,
+		H2,
 		META,
-		TITLE,
-		H1
+		TITLE
 	}
 	
 	/**

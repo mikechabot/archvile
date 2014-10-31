@@ -1,30 +1,33 @@
 package com.archvile.utils;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import com.google.common.base.CharMatcher;
 
 public class StringUtil {
 
 	/**
-	 * Return true of the String is empty
+	 * Return true of the string is empty
 	 * @param value
 	 * @return boolean
 	 */
 	public static boolean isEmpty(String value) {
-		if (value == null) {
+		if (value == null || value.isEmpty()) {
 			return true;
 		} else {
-			return removeWhitespaces(value) == null;
+			return removeWhitespaces(value).isEmpty();
 		}
 	}
 
+	public static String sanitize(String value) {
+		return value.replaceAll("[^a-zA-Z]", "");
+	}
+	
+	/**
+	 * Remove whitepaces from a string
+	 * @param value
+	 * @return String
+	 */
 	private static String removeWhitespaces(String value) {
-		value = value.trim().replace("\\s", "");
-		if (value.isEmpty()) {
-			return null;
-		} else if (StringEscapeUtils.escapeHtml(value).equals("&nbsp;")) {
-			return null;
-		}
-		return value;
+		return CharMatcher.WHITESPACE.trimFrom(value);
 	}
 	
 }

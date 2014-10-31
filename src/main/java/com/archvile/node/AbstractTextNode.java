@@ -22,7 +22,30 @@ public abstract class AbstractTextNode extends AbstractNode {
 	}
 	
 	public boolean hasText() {
-		return !StringUtil.isEmpty(text);
+		return !StringUtil.isEmpty(getText());
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((getText() == null) ? 0 : getText().hashCode());
+		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractTextNode other = (AbstractTextNode) obj;
+		if (getText() == null) {
+			if (other.getText() != null)
+				return false;
+		} else if (!getText().equals(other.getText()))
+			return false;
+		return true;
+	}
+	
 }

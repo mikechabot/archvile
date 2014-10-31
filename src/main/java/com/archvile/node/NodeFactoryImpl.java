@@ -3,12 +3,13 @@ package com.archvile.node;
 import org.apache.log4j.Logger;
 import org.jsoup.nodes.Element;
 
+import com.archvile.node.Nodes.NodeNotImplementedException;
 import com.archvile.node.nodes.AnchorNode;
+import com.archvile.node.nodes.BodyNode;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.node.nodes.H1Node;
+import com.archvile.node.nodes.H2Node;
 import com.archvile.node.nodes.MetaNode;
-import com.archvile.node.nodes.Nodes;
-import com.archvile.node.nodes.Nodes.NodeNotImplementedException;
 import com.archvile.node.nodes.TitleNode;
 
 /**
@@ -30,14 +31,18 @@ public class NodeFactoryImpl implements NodeFactory {
 			switch (Nodes.getNode(element.tagName())) {
 			case A: 
 				return new AnchorNode(element);
+			case BODY:
+				return new BodyNode(element);
+			case H1:
+				return new H1Node(element);
+			case H2:
+				return new H2Node(element);
 			case DIV: 
 				return new DivNode(element);
 			case META:
 				return new MetaNode(element);
 			case TITLE:
 				return new TitleNode(element);
-			case H1:
-				return new H1Node(element);
 			default:
 				return null;
 			}

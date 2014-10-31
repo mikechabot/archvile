@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archvile.node.NodeFactoryImpl;
-import com.archvile.node.nodes.Nodes.NodeName;
+import com.archvile.node.Nodes.NodeName;
 
 public class NodeFactoryImplTest {
 	

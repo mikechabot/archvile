@@ -5,8 +5,9 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import com.archvile.node.nodes.Nodes.NodeName;
-import com.archvile.node.nodes.Nodes.NodeNotImplementedException;
+import com.archvile.node.Nodes;
+import com.archvile.node.Nodes.NodeName;
+import com.archvile.node.Nodes.NodeNotImplementedException;
 
 public class NodesTest {
 

@@ -1,9 +1,10 @@
-package com.archvile;
+package com.archvile.page;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.archvile.node.nodes.AnchorNode;
+import com.archvile.node.nodes.BodyNode;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.node.nodes.H1Node;
 import com.archvile.node.nodes.H2Node;
@@ -13,6 +14,7 @@ import com.archvile.node.nodes.TitleNode;
 public class Page {
 
 	private TitleNode title;
+	private BodyNode body;
 	private List<DivNode> divs;
 	private List<AnchorNode> anchors;
 	private List<MetaNode> metas;
@@ -27,13 +29,23 @@ public class Page {
 		this.title = title;
 	}
 	
+	public BodyNode getBody() {
+		return body;
+	}
+
+	public void setBody(BodyNode body) {
+		this.body = body;
+	}
+	
 	public List<DivNode> getDivs() {
 		return divs;
 	}
 	
 	public void addDiv(DivNode div) {
 		if (divs == null) divs = new ArrayList<DivNode>();
-		divs.add(div);
+		if (!divs.contains(div)) {
+			divs.add(div);	
+		}
 	}
 	
 	public void setDivs(List<DivNode> divs) {
@@ -90,6 +102,6 @@ public class Page {
 	
 	public List<H2Node> getH2s() {
 		return h2s;
-	}
+	}	
 	
 }
