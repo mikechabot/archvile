@@ -13,6 +13,7 @@ import com.archvile.node.nodes.TitleNode;
 
 public class Page {
 
+	private String url;
 	private TitleNode title;
 	private BodyNode body;
 	private List<DivNode> divs;
@@ -21,6 +22,14 @@ public class Page {
 	private List<H1Node> h1s;
 	private List<H2Node> h2s;
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 	public String getTitle() {
 		return title.getTitle();
 	}

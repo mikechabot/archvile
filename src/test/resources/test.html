@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+  <meta charset="utf-8">
+  <title>This is a title</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row section">
+        <div class="col-lg-offset-1 col-lg-10">
+          <h1>Hello World!</h1>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what makes me cry?</button>
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what's depressing?</button>
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what makes me sad?</button>
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what I wish had happened?</button>
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what sucks?</button>
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what I miss?</button>
+
+
+
+
+
+
+
+
+
+
+		        <button class="btn btn-primary question-button" type="button">You know what I regret?</button>
+
+
+
+		</div>
+      </div>
+    </div>
+
+
+
+<div class="container retractable text-center" id="form-container">
+  <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+  <div class="panel panel-default row section">
+    <div class="panel-heading">
+      <h3 class="panel-title" id="legend"></h3>
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form" method="post" action="/rant" onsubmit="return validate()">
+  	    <input id="pageLoadTime" name="pageLoadTime" value="1414802556075" type="hidden">
+        <input id="emotion" name="emotion" value="" type="hidden">
+        <input id="question" name="question" value="" type="hidden">
+        <div class="row">
+          <div class="col-lg-offset-1 col-lg-5 col-sm-offset-1 col-sm-5">
+            <input class="form-control" id="visitor_name" name="visitor_name" placeholder="Name (optional)" type="text">
+          </div>
+          <div class="col-lg-5 col-sm-5">
+            <input class="form-control" id="location" name="location" placeholder="Location (optional)" type="text">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-offset-1 col-lg-10 col-sm-offset-1 col-sm-10">
+            <textarea class="form-control" name="rant" id="form-container-textarea" rows="5" placeholder="Say something..."></textarea>
+          </div>
+        </div>
+        <span class="help-block"><span class="safe" id="counter">500</span> characters left.</span>
+        <button type="submit" id="submit" class="btn btn-default">Post</button>
+      </form>
+      <h5 class="text-danger retractable" id="error-text"></h5>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="container"><hr></div>
+
+
+
+  <div id="rants-container" class="container scrollspy"><div class="jscroll-inner">
+    <div class="ribbon ribbon-black">
+      <div class="banner"><div class="text text-center">Alpha</div></div>
+    </div>
+
+
+
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/angry-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I don't like?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/12" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">&lt;Br&gt; hey!</p>
+            <small><span class="mild-bold">Anonymous</span> // Earth // <span class="rant-created timeago" title="10/30/2014 11:00 PM">about 22 hours ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/angry-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what makes me angry?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/11" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Won't! You! EvenW@ Get iT!@ THos;!</p>
+            <small><span class="mild-bold">BOOBS</span> // Earth // <span class="rant-created timeago" title="10/30/2014 10:57 PM">about 22 hours ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/happy-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I can't live without?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/10" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">The Internet. I wouldn't have a job without it.</p>
+            <small><span class="mild-bold">IT Dude</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:39 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/sad-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I miss?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/9" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">My damn dog.</p>
+            <small><span class="mild-bold">Steve</span> // Texas // <span class="rant-created timeago" title="10/19/2014 1:38 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/sad-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what sucks?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/8" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Vacuums. Thanks, try the veal.</p>
+            <small><span class="mild-bold">Anonymous</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:38 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/happy-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I like?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/7" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Puppies and frigging rainbows.</p>
+            <small><span class="mild-bold">Anonymous</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:37 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/happy-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what make me happy?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/6" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Sunny ass days, man. You know?</p>
+            <small><span class="mild-bold">Anonymous</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:37 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/happy-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I love?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/5" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Pizza. I could eat that shit for breakfast.</p>
+            <small><span class="mild-bold">Joey Pizza</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:37 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/sad-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I regret?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/4" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Not spending enough quality time with my toaster.</p>
+            <small><span class="mild-bold">Anonymous</span> // Boston // <span class="rant-created timeago" title="10/19/2014 1:36 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/sad-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what makes me sad?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/3" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Rainy ass days</p>
+            <small><span class="mild-bold">Anonymous</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:36 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/angry-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what makes me angry?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/2" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">When two lanes are merging some some asshole cuts you off and doesn't even give a shit</p>
+            <small><span class="mild-bold">Anonymous</span> // Earth // <span class="rant-created timeago" title="10/19/2014 1:36 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+
+    <div class="row panel">
+      <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-1 col-sm-1 col-xs-2">
+              <img src="quickrant%20_%20express%20yourself%20without%20yourself_files/happy-small.gif">
+            </div>
+            <div class="col-lg-10 col-sm-10 col-xs-8">
+              <h2 class="panel-title">You know what I love?</h2>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-xs-2 text-right">
+              <a rel="tooltip" href="http://localhost/rant/1" class="permalink glyphicon glyphicon-leaf"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <blockquote>
+            <p class="rants-text">Fucking ice cream, man.</p>
+            <small><span class="mild-bold">Mike</span> // Boston // <span class="rant-created timeago" title="10/19/2014 1:35 PM">12 days ago</span></small>
+          </blockquote>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+
+<div class="row-panel text-center">
+  <div class="col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-9">
+    <a href="http://localhost/ajax/1" class="next-selector btn-default btn btn-lg btn-block">More</a>
+    <br>
+  </div>
+</div>
+
+  </div></div>
+
+
+
+
+<div id="modal" class="modal fade" style="margin-top: 5%;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 id="modal-title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="quickrant%20_%20express%20yourself%20without%20yourself_files/rant.js"></script>
+<script src="quickrant%20_%20express%20yourself%20without%20yourself_files/jquery_002.js"></script>
+<script src="quickrant%20_%20express%20yourself%20without%20yourself_files/jquery.js"></script>
+<script src="quickrant%20_%20express%20yourself%20without%20yourself_files/jquery_004.js"></script>
+
+</body></html>

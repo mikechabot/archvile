@@ -1,5 +1,6 @@
 package com.archvile.node.factory;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -10,6 +11,8 @@ import org.junit.Test;
 
 import com.archvile.node.NodeFactoryImpl;
 import com.archvile.node.Nodes.NodeName;
+import com.archvile.node.nodes.DivNode;
+import com.archvile.node.nodes.MetaNode;
 
 public class NodeFactoryImplTest {
 	
@@ -31,13 +34,17 @@ public class NodeFactoryImplTest {
 	
 	@Test 
 	public void testCreateElementWithKnownNodename() {
-		NodeName nodeName = NodeName.DIV;
-		Tag tag = Tag.valueOf(String.valueOf(nodeName));
-		assertNotNull(nodeFactory.createElement(new Element(tag, "/baseuri")));
+		/* Generate div element */
+		Tag tag = Tag.valueOf(String.valueOf(NodeName.DIV));
+		Element element = nodeFactory.createElement(new Element(tag, "/baseuri"));
+		assertNotNull(element);
+		assertEquals(true, element instanceof DivNode);
 		
-		nodeName = NodeName.META;
-		tag = Tag.valueOf(String.valueOf(nodeName));
-		assertNotNull(nodeFactory.createElement(new Element(tag, "/baseuri")));
+		/* Generate meta element */
+		tag = Tag.valueOf(String.valueOf(NodeName.META));
+		element = nodeFactory.createElement(new Element(tag, "/baseuri"));
+		assertNotNull(element);
+		assertEquals(true, element instanceof MetaNode);
 	}
 	
 	@Test 

@@ -44,10 +44,10 @@ public class AbstractTextNodeTest {
 		
 		/* Build divs */
 		DivNode div1 = new DivNode(ele1);
-		H2Node div2 = new H2Node(ele2);
+		H2Node h2 = new H2Node(ele2);
 		
-		assertTrue(div1.getText().equals(div2.getText()));
-		assertFalse(div1.equals(div2));
+		assertTrue(div1.getText().equals(h2.getText()));
+		assertFalse(div1.equals(h2));
 	}
 	
 	@Test
@@ -64,10 +64,10 @@ public class AbstractTextNodeTest {
 		
 		/* Build divs */
 		DivNode div1 = new DivNode(ele1);
-		H2Node div2 = new H2Node(ele2);
+		H2Node h2 = new H2Node(ele2);
 		
-		assertFalse(div1.getText().equals(div2.getText()));
-		assertFalse(div1.equals(div2));
+		assertFalse(div1.getText().equals(h2));
+		assertFalse(div1.equals(h2));
 	}
 	
 }
