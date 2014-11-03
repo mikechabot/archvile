@@ -1,5 +1,6 @@
 package com.archvile.service;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
@@ -17,7 +18,11 @@ public class DocumentService {
 	 */
 	public Document getDocumentFromUrl(String url) throws IOException  {
 		if (StringUtil.isEmpty(url)) throw new IllegalArgumentException("URL cannot be null");
-		return Jsoup.connect(url).get();
+		if (url.startsWith("http")) {
+			return Jsoup.connect(url).get();
+		} else {
+			return Jsoup.parse(new File(url), "UTF-8");
+		}
 	}
 	
 }

@@ -36,7 +36,7 @@ public class Archvile {
 	}	
 
 	public static void main (String[] args) throws IOException {
-		String startingUrl = "http://localhost";
+		String startingUrl = "src/main/resources/main-test.html";
 		Archvile archvile = new Archvile();
 		archvile.crawl(startingUrl);
 	}

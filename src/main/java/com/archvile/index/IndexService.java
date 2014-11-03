@@ -1,6 +1,5 @@
 package com.archvile.index;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ public class IndexService {
 	
 	private static Logger log = Logger.getLogger(IndexService.class);
 	
-	private static ConcurrentMap<String, List<String>> index = new ConcurrentHashMap<>();
+	private static ConcurrentMap<String, IndexEntry> index = new ConcurrentHashMap<>();
 	
 	/**
 	 * Add the text content of a Page object to the index
@@ -42,36 +41,34 @@ public class IndexService {
 	private void addToIndex(String keyword, String url) {
 		keyword = StringUtil.sanitize(keyword);
 		if (!StringUtil.isEmpty(keyword)) {
-			List<String> urls;
 			if (index.get(keyword) == null) {
-				urls = new ArrayList<String>();
-				urls.add(url);
-				index.put(keyword, urls);
+				index.put(keyword, new IndexEntry(url));
 			} else {
-				urls = index.get(keyword);
-				if (!urls.contains(url)) {
-					urls.add(url);
-					index.put(keyword, urls);
+				IndexEntry entry = index.get(keyword);
+				entry.setCount(entry.getCount() + 1);
+				if (!entry.getUrls().contains(url)) {
+					entry.addUrl(url);
 				}
 			}
 		}
 	}	
 
 	public List<String> getUrls(String keyword) {
-		return index.get(keyword);
+		return index.get(keyword).getUrls();
 	}
 	
 	public int getIndexSize() {
-		return index != null ? index.size(): 0;
+		return index != null ? index.size() : 0;
 	}
 	
 	public void printIndex() {
 		log.info("**PRINTING INDEX***");
-		for (Map.Entry<String, List<String>> entry : index.entrySet()) {
-			log.info("| Keyword: " +  entry.getKey());
-			log.info("|   Count: " +  entry.getValue().size());
-			for (String each : entry.getValue()) {
-				log.info("|      --> url: " +  each);
+		for (Map.Entry<String, IndexEntry> entry : index.entrySet()) {
+			log.info("|  Keyword: " +  entry.getKey());
+			log.info("|    Count: " + entry.getValue().getCount());
+			log.info("| Url.size: " +  entry.getValue().getUrls().size());
+			for (String url : entry.getValue().getUrls()) {
+				log.info("|       --> url: " +  url);
 			}
 		}
 	}
