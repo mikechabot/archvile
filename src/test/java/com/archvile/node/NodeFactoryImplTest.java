@@ -1,4 +1,4 @@
-package com.archvile.node.factory;
+package com.archvile.node;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

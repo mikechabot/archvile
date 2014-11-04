@@ -1,6 +1,7 @@
 package com.archvile.index;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,22 @@ public class IndexServiceTest {
 	@Before
 	public void beforeTest() {
 		service = new IndexService();
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddNullUrlToIndex() {
+		service.addPageToIndex(null, new Page());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddNullPageToIndex() {
+		service.addPageToIndex("http://localhost", null);
+	}	
+	
+	@Test
+	public void testAddEmptyPage() {
+		service.addPageToIndex("http://localhost", new Page());
+		assertEquals(0, service.getIndexSize());
 	}
 	
 	@Test
@@ -59,10 +76,10 @@ public class IndexServiceTest {
 			service.addPageToIndex(page.getUrl(), page);
 		}
 
+		assertTrue(service.getIndexSize() > 0);
 		assertEquals(2, service.getUrls("same").size());
 		assertEquals(2, service.getUrls("text").size());
 		assertEquals(1, service.getUrls("different").size());
 	}
 	
 }
-

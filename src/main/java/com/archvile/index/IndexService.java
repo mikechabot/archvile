@@ -24,10 +24,13 @@ public class IndexService {
 	 * @param page
 	 */
 	public void addPageToIndex(String url, Page page) {
-		for (DivNode div : page.getDivs()) {
-			List<String> words = Arrays.asList(div.getText().split("\\s+"));
-			for (String word : words) {
-				addToIndex(word.toLowerCase(), url);	
+		if (url == null || page == null) throw new IllegalArgumentException("Page and/or URL cannot be null");
+		if (page.getDivs() != null) {
+			for (DivNode div : page.getDivs()) {
+				List<String> words = Arrays.asList(div.getText().split("\\s+"));
+				for (String word : words) {
+					addToIndex(word.toLowerCase(), url);	
+				}
 			}
 		}
 	}
