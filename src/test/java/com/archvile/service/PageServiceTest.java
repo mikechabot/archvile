@@ -1,4 +1,4 @@
-package com.archvile.page;
+package com.archvile.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,13 +11,16 @@ import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PageGeneratorTest {
+import com.archvile.page.Page;
+import com.archvile.service.PageService;
 
-	private PageGenerator pageGenerator;
+public class PageServiceTest {
+
+	private PageService pageGenerator;
 	
 	@Before
 	public void beforeTest() {
-		pageGenerator = new PageGenerator();
+		pageGenerator = new PageService();
 	}
 	
 	@Test

@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.archvile.node.Nodes;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.page.Page;
+import com.archvile.service.IndexService;
 
 public class IndexServiceTest {
 

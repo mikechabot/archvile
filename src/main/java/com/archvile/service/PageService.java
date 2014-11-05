@@ -1,4 +1,4 @@
-package com.archvile.page;
+package com.archvile.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,9 @@ import org.jsoup.select.Elements;
 import com.archvile.node.AbstractTextNode;
 import com.archvile.node.NodeFactoryImpl;
 import com.archvile.node.nodes.*;
+import com.archvile.page.Page;
 
-public class PageGenerator {
+public class PageService {
 
 	private NodeFactoryImpl nodeFactory = new NodeFactoryImpl();	
 

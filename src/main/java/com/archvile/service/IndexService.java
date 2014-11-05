@@ -1,4 +1,4 @@
-package com.archvile.index;
+package com.archvile.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.log4j.Logger;
 
+import com.archvile.index.IndexEntry;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.page.Page;
 import com.archvile.utils.StringUtil;
@@ -29,7 +30,7 @@ public class IndexService {
 			for (DivNode div : page.getDivs()) {
 				List<String> words = Arrays.asList(div.getText().split("\\s+"));
 				for (String word : words) {
-					addToIndex(word.toLowerCase(), url);	
+					addToIndex(word.toLowerCase(), url);
 				}
 			}
 		}
@@ -65,14 +66,9 @@ public class IndexService {
 	}
 	
 	public void printIndex() {
-		log.info("**PRINTING INDEX***");
+		log.info("Index size: " + index.size());
 		for (Map.Entry<String, IndexEntry> entry : index.entrySet()) {
-			log.info("|  Keyword: " +  entry.getKey());
-			log.info("|    Count: " + entry.getValue().getCount());
-			log.info("| Url.size: " +  entry.getValue().getUrls().size());
-			for (String url : entry.getValue().getUrls()) {
-				log.info("|       --> url: " +  url);
-			}
+			log.info(entry.getKey()+"\t"+entry.getValue().getCount()+"\t"+entry.getValue().getUrls().size());
 		}
 	}
 

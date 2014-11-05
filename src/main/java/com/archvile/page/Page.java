@@ -67,7 +67,9 @@ public class Page {
 	
 	public void addAnchor(AnchorNode anchor) {
 		if (anchors == null) anchors = new ArrayList<AnchorNode>();
-		anchors.add(anchor);
+		if (!anchors.contains(anchor)) {
+			anchors.add(anchor);
+		}
 	}
 	
 	public void setAnchors(List<AnchorNode> anchors) {
