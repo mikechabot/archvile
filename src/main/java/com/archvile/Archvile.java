@@ -13,8 +13,6 @@ import org.apache.log4j.Logger;
 
 import com.archvile.node.nodes.AnchorNode;
 import com.archvile.page.Page;
-import com.archvile.service.IndexService;
-import com.archvile.thread.ConsumerFactory;
 import com.archvile.thread.PageConsumer;
 import com.archvile.thread.PageProducer;
 
@@ -27,16 +25,14 @@ public class Archvile {
 
 	private static Logger log = Logger.getLogger(Archvile.class);
 	
-	private IndexService indexService = new IndexService();
 	private ArrayBlockingQueue<Page> queue = new ArrayBlockingQueue<Page>(10);
 	private ExecutorService executor = Executors.newFixedThreadPool(10);
 	
-	private Archvile() { }
+	public Archvile() { }
 	
 	public void crawl(String seed) throws IOException {
 		log.info("Seed url: " + seed);
-		ConsumerFactory factory = new ConsumerFactory();
-		Thread consumer = factory.newThread(new PageConsumer(queue));
+		PageConsumer consumer = new PageConsumer(queue);
 		consumer.start();
 		
 		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<>();
@@ -49,7 +45,7 @@ public class Archvile {
 				List<AnchorNode> anchors = future.get();
 				for (AnchorNode each : anchors) {
 					if (each.isValid()) {
-						urls.add(each.getAbsUrl());	
+						urls.add(each.getAbsUrl());
 					}
 				}
 				log.info("# of urls: " + urls.size());
@@ -68,5 +64,5 @@ public class Archvile {
 		Archvile archvile = new Archvile();
 		archvile.crawl(startingUrl);
 	}
-	
+
 }

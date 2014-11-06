@@ -11,6 +11,7 @@ public class PageConsumer implements Runnable {
 
 	private static final Logger log = Logger.getLogger(PageConsumer.class);
 	
+	private Thread thread;
 	private IndexService indexService = new IndexService();
 	private ArrayBlockingQueue<Page> queue;
 	private boolean isRunning;
@@ -19,16 +20,28 @@ public class PageConsumer implements Runnable {
 		this.queue = queue;
 	}
 
-	private void stop() {
-		log.info("Stopping consumer...");
-		isRunning = false;
+	public void start() {
+		if (!isRunning) {
+			if (thread == null) {
+				thread = new Thread(this);
+			}
+			thread.start();
+		}		
+	}
+	
+	public void stop() {
+		if (isRunning) {
+			log.info("Stopping consumer...");
+			isRunning = false;
+			thread.interrupt();	
+		}
 	}
 	
 	@Override
 	public void run() {
 		log.info("Starting consumer...");
 		isRunning = true;
-		while (isRunning) {
+		while (isRunning || Thread.interrupted()) {
 			/* Poll for work */
 			Page page = queue.poll();
 			if (page != null) {

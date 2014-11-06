@@ -12,6 +12,7 @@ import com.archvile.index.IndexEntry;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.page.Page;
 import com.archvile.utils.StringUtil;
+import com.google.gson.Gson;
 
 public class IndexService {
 	
@@ -46,7 +47,7 @@ public class IndexService {
 		keyword = StringUtil.sanitize(keyword);
 		if (!StringUtil.isEmpty(keyword)) {
 			if (index.get(keyword) == null) {
-				index.put(keyword, new IndexEntry(url));
+				index.put(keyword, new IndexEntry(keyword, url));
 			} else {
 				IndexEntry entry = index.get(keyword);
 				entry.setCount(entry.getCount() + 1);
@@ -55,7 +56,7 @@ public class IndexService {
 				}
 			}
 		}
-	}	
+	}
 
 	public List<String> getUrls(String keyword) {
 		return index.get(keyword).getUrls();
@@ -65,8 +66,13 @@ public class IndexService {
 		return index != null ? index.size() : 0;
 	}
 	
+	public ConcurrentMap<String, IndexEntry> getIndex() {
+		return index;
+	}
+	
 	public void printIndex() {
 		log.info("Index size: " + index.size());
+		log.info("Index: " + new Gson().toJson(index));
 		for (Map.Entry<String, IndexEntry> entry : index.entrySet()) {
 			log.info(entry.getKey()+"\t"+entry.getValue().getCount()+"\t"+entry.getValue().getUrls().size());
 		}

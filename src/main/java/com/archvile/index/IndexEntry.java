@@ -9,7 +9,8 @@ public class IndexEntry {
 	private int count;
 	private List<String> urls;
 	
-	public IndexEntry(String url) {
+	public IndexEntry(String keyword, String url) {
+		this.keyword = keyword;
 		addUrl(url);
 		count++;
 	}

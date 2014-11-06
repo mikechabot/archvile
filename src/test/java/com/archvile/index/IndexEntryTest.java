@@ -8,7 +8,7 @@ public class IndexEntryTest {
 
 	@Test
 	public void testIndexEntryConstructor() {
-		IndexEntry entry = new IndexEntry("test");
+		IndexEntry entry = new IndexEntry("test", "test");
 		assertEquals(1, entry.getCount());
 	}
 	
