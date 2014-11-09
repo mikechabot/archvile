@@ -1,0 +1,10 @@
+.table-statistics th {
+	text-align: right;
+}
+
+#error {
+    color: #A94442;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}

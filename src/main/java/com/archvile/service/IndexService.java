@@ -2,21 +2,15 @@ package com.archvile.service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import org.apache.log4j.Logger;
 
 import com.archvile.index.IndexEntry;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.page.Page;
 import com.archvile.utils.StringUtil;
-import com.google.gson.Gson;
 
 public class IndexService {
-	
-	private static Logger log = Logger.getLogger(IndexService.class);
 	
 	private static ConcurrentMap<String, IndexEntry> index = new ConcurrentHashMap<>();
 	
@@ -68,14 +62,6 @@ public class IndexService {
 	
 	public ConcurrentMap<String, IndexEntry> getIndex() {
 		return index;
-	}
-	
-	public void printIndex() {
-		log.info("Index size: " + index.size());
-		log.info("Index: " + new Gson().toJson(index));
-		for (Map.Entry<String, IndexEntry> entry : index.entrySet()) {
-			log.info(entry.getKey()+"\t"+entry.getValue().getCount()+"\t"+entry.getValue().getUrls().size());
-		}
 	}
 
 }

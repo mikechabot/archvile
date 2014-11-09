@@ -25,6 +25,7 @@ public class PageConsumer implements Runnable {
 			if (thread == null) {
 				thread = new Thread(this);
 			}
+			log.info("Starting consumer...");
 			thread.start();
 		}		
 	}
@@ -33,21 +34,19 @@ public class PageConsumer implements Runnable {
 		if (isRunning) {
 			log.info("Stopping consumer...");
 			isRunning = false;
-			thread.interrupt();	
+			thread.interrupt();
 		}
 	}
 	
 	@Override
 	public void run() {
-		log.info("Starting consumer...");
 		isRunning = true;
-		while (isRunning || Thread.interrupted()) {
+		while (isRunning && thread != null) {
 			/* Poll for work */
 			Page page = queue.poll();
 			if (page != null) {
 				log.info("Adding '" + page.getUrl() + "' to the index...");
 				indexService.addPageToIndex(page.getUrl(), page);
-				indexService.printIndex();
 			}
 			/* Wait until notification */
 	        try {

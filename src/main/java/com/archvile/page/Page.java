@@ -67,9 +67,11 @@ public class Page {
 	
 	public void addAnchor(AnchorNode anchor) {
 		if (anchors == null) anchors = new ArrayList<AnchorNode>();
-		if (!anchors.contains(anchor)) {
+		System.out.println("url->"+anchor.getAbsUrl() + " | " + anchor.getUrl());
+		if (!anchors.contains(anchor) && anchor.isValid()) {
 			anchors.add(anchor);
 		}
+		System.out.println("Add? " + (!anchors.contains(anchor) && anchor.isValid()));
 	}
 	
 	public void setAnchors(List<AnchorNode> anchors) {

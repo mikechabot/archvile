@@ -51,7 +51,7 @@ public class PageProducer implements Callable<List<AnchorNode>> {
 		} catch (InterruptedException e) {
 			log.error("Unable to add document to queue: ", e);
 		}
-		log.info("Returning URLs from '" + url + "'");
+		log.info("Returning " + urls == null ? 0 : urls.size() + " urls from '" + url + "'");
 		return urls;
 	}
 }

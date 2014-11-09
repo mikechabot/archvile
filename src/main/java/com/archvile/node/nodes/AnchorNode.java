@@ -27,16 +27,20 @@ public class AnchorNode extends AbstractNode implements Validator {
 	}
 
 	public boolean isSectionUrl() {
-		return url.startsWith("#");
+		return url.contains("#");
 	}
 	
 	public boolean isRelativeUrl() {
 		return !url.startsWith("http");
 	}
 	
+	public boolean isSSL() {
+		return url.startsWith("https");
+	}
+	
 	@Override
 	public boolean isValid() {
-		return !StringUtil.isEmpty(url);
+		return (!StringUtil.isEmpty(url) && !isSSL());
 	}
 
 	@Override
@@ -51,14 +55,14 @@ public class AnchorNode extends AbstractNode implements Validator {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		AnchorNode other = (AnchorNode) obj;
 		if (url == null) {
 			if (other.url != null)
 				return false;
+		} else if (!url.equals(other.url.replaceAll("\\/$", ""))) {
+			return false;
 		} else if (!url.equals(other.url))
 			return false;
 		return true;
