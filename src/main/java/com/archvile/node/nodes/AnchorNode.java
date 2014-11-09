@@ -3,6 +3,7 @@ package com.archvile.node.nodes;
 import org.jsoup.nodes.Element;
 
 import com.archvile.node.AbstractNode;
+import com.archvile.utils.ExcludedUrls;
 import com.archvile.utils.StringUtil;
 
 public class AnchorNode extends AbstractNode implements Validator {
@@ -22,7 +23,8 @@ public class AnchorNode extends AbstractNode implements Validator {
 		return url;
 	}
 	
-	public String getAbsUrl() {
+	public String getAbsoluteUrl() {
+		if (baseUri().endsWith("/") && url.startsWith("/")) url = url.replaceFirst("/", "");
 		return (isRelativeUrl() ? baseUri() + url : url);
 	}
 
@@ -40,7 +42,11 @@ public class AnchorNode extends AbstractNode implements Validator {
 	
 	@Override
 	public boolean isValid() {
-		return (!StringUtil.isEmpty(url) && !isSSL());
+		return (!StringUtil.isEmpty(url) && !isSSL() && !isExcluded(url));
+	}
+
+	private boolean isExcluded(String url) {
+		return ExcludedUrls.isExcluded(url);
 	}
 
 	@Override
@@ -53,18 +59,27 @@ public class AnchorNode extends AbstractNode implements Validator {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
+			System.out.println("1");
 			return true;
-		if (getClass() != obj.getClass())
+		} else 	if (getClass() != obj.getClass()) {
+			System.out.println("2");
 			return false;
+		}	
 		AnchorNode other = (AnchorNode) obj;
 		if (url == null) {
-			if (other.url != null)
+			if (other.url != null) {
+				System.out.println("2");
 				return false;
+			}	
 		} else if (!url.equals(other.url.replaceAll("\\/$", ""))) {
+			System.out.println("3");
 			return false;
-		} else if (!url.equals(other.url))
+		} else if (!url.equals(other.url)) {
+			System.out.println("4");
 			return false;
+		}
+		System.out.println("5");
 		return true;
 	}
 	

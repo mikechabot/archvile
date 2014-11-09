@@ -1,23 +1,27 @@
 package com.archvile.thread;
 
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.apache.log4j.Logger;
 
 import com.archvile.page.Page;
-import com.archvile.service.IndexService;
+import com.archvile.service.IndexServiceImpl;
 
 public class PageConsumer implements Runnable {
 
 	private static final Logger log = Logger.getLogger(PageConsumer.class);
 	
 	private Thread thread;
-	private IndexService indexService = new IndexService();
+	private IndexServiceImpl indexService = new IndexServiceImpl();
 	private ArrayBlockingQueue<Page> queue;
+	
+	private List<String> searchTerms;
 	private boolean isRunning;
 	
-	public PageConsumer(ArrayBlockingQueue<Page> queue) {
+	public PageConsumer(ArrayBlockingQueue<Page> queue, List<String> searchTerms) {
 		this.queue = queue;
+		this.searchTerms = searchTerms;
 	}
 
 	public void start() {
@@ -46,7 +50,7 @@ public class PageConsumer implements Runnable {
 			Page page = queue.poll();
 			if (page != null) {
 				log.info("Adding '" + page.getUrl() + "' to the index...");
-				indexService.addPageToIndex(page.getUrl(), page);
+				indexService.addPageToIndex(page, searchTerms);
 			}
 			/* Wait until notification */
 	        try {

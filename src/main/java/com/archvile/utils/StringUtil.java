@@ -18,7 +18,7 @@ public class StringUtil {
 	}
 
 	public static String sanitize(String value) {
-		return value.replaceAll("[^a-zA-Z]", "");
+		return value.toLowerCase().replaceAll("[^a-zA-Z]", "");
 	}
 	
 	/**

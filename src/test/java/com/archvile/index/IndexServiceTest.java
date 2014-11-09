@@ -14,31 +14,32 @@ import org.junit.Test;
 import com.archvile.node.Nodes;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.page.Page;
-import com.archvile.service.IndexService;
+import com.archvile.service.IndexServiceImpl;
 
 public class IndexServiceTest {
 
-	private IndexService service;
+	private IndexServiceImpl service;
 	
 	@Before
 	public void beforeTest() {
-		service = new IndexService();
+		service = new IndexServiceImpl();
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testAddNullUrlToIndex() {
-		service.addPageToIndex(null, new Page());
+		service.addPageToIndex(new Page());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testAddNullPageToIndex() {
-		service.addPageToIndex("http://localhost", null);
+		service.addPageToIndex(null);
 	}	
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void testAddEmptyPage() {
-		service.addPageToIndex("http://localhost", new Page());
-		assertEquals(0, service.getIndexSize());
+		Page page = new Page();
+		page.setUrl("http://localhost");
+		service.addPageToIndex(new Page());
 	}
 	
 	@Test
@@ -74,13 +75,13 @@ public class IndexServiceTest {
 		pages.add(page2);
 		
 		for (Page page : pages) {
-			service.addPageToIndex(page.getUrl(), page);
+			service.addPageToIndex(page);
 		}
 
 		assertTrue(service.getIndexSize() > 0);
-		assertEquals(2, service.getUrls("same").size());
-		assertEquals(2, service.getUrls("text").size());
-		assertEquals(1, service.getUrls("different").size());
+		assertEquals(2, service.get("same").getUrls().size());
+		assertEquals(2, service.get("text").getUrls().size());
+		assertEquals(1, service.get("different").getUrls().size());
 	}
 	
 }

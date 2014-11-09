@@ -23,6 +23,6 @@ public class DocumentService {
 		} else {
 			return Jsoup.parse(new File(url), "UTF-8");
 		}
-	}
+	}	
 	
 }

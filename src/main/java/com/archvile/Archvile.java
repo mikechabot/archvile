@@ -1,6 +1,7 @@
 package com.archvile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -36,6 +37,8 @@ public class Archvile implements Runnable, QueueTask {
 	
 	private boolean isRunning;
 	private String seedUrl;
+	private String[] searchTerms;
+	
 	private long start;
 	private long stop;
 	private int pagesViewed;
@@ -61,7 +64,10 @@ public class Archvile implements Runnable, QueueTask {
 			executor = Executors.newFixedThreadPool(10);
 			queue = new ArrayBlockingQueue<Page>(50);
 			
-			consumer = new PageConsumer(queue);
+			urls = new CopyOnWriteArrayList<>();
+			urls.add(seedUrl);
+			
+			consumer = new PageConsumer(queue, searchTerms == null ? null : Arrays.asList(searchTerms));
 			consumer.start();
 			
 			thread = new Thread(this);
@@ -108,18 +114,21 @@ public class Archvile implements Runnable, QueueTask {
 				for (int i=0; i < urls.size(); i++) {
 					PageProducer producer = new PageProducer(queue, urls.get(i));
 					Future<List<AnchorNode>> future = executor.submit(producer);
+					/* Get anchor nodes from future */
 					List<AnchorNode> anchors = future.get();
 					for (AnchorNode each : anchors) {
-						urls.add(each.getAbsUrl());
+						urls.add(each.getAbsoluteUrl());
 					}
 					pagesViewed++;
 					Thread.sleep(1000);
 				}
 			}
 		} catch (ExecutionException e) {
-			log.error("Error getting future: ", e);
+			log.warn("Error getting future: ", e);
+		} catch (NullPointerException e) {
+			log.warn("Error getting future:", e);
 		} catch (InterruptedException e) {
-			log.info("Stopping archvile...");
+			log.warn("archvile interrupted...");
 		} finally {
 			stop();
 			stop = System.currentTimeMillis();
@@ -139,12 +148,16 @@ public class Archvile implements Runnable, QueueTask {
 		return urls.size();
 	}
 	
-	public int getQueueSize() {
-		return queue == null ? 0 : queue.size();
-	}
-	
 	public int getPagesViewed() {
 		return pagesViewed;
-	}   
+	}
+
+	public void setSearchTerms(String searchTerms) {
+		this.searchTerms = searchTerms.split(" ");
+	}
+	
+	public String[] getSearchTerms() {
+		return searchTerms;
+	}
 
 }

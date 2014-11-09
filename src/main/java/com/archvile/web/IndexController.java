@@ -4,14 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.archvile.Archvile;
-import com.archvile.service.IndexService;
+import com.archvile.service.IndexServiceImpl;
 
 public class IndexController extends Controller {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Archvile archvile = new Archvile();
-	private IndexService indexService = new IndexService();
+	private IndexServiceImpl indexService = new IndexServiceImpl();
 	
 	@Override
 	protected String basePath() { return ""; }	
@@ -36,7 +36,6 @@ public class IndexController extends Controller {
 	        request.setAttribute("lastRunDuration", archvile.getLastRunDuration());
 	        request.setAttribute("currentRunDuration", archvile.getCurrentRunDuration());
 	        request.setAttribute("urls", archvile.getUrlsSize());
-	        request.setAttribute("queue", archvile.getQueueSize());
 	        request.setAttribute("seedUrl", archvile.getSeedUrl());
 	        request.setAttribute("pagesViewed", archvile.getPagesViewed());
 			return basePath() + "/index.jsp";		
@@ -46,10 +45,12 @@ public class IndexController extends Controller {
 	public class StartAction implements Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			String seedUrl = request.getParameter("seedUrl");
-			if (seedUrl == null || seedUrl.isEmpty()) {
+			String searchTerms = request.getParameter("searchTerms");
+			if (seedUrl == null || searchTerms == null || seedUrl.isEmpty() || searchTerms.isEmpty()) {
 				return null;
 			}
 			archvile.setSeedUrl("http://" + seedUrl);
+			archvile.setSearchTerms(searchTerms);
 			archvile.start();
 	        request.setAttribute("index", indexService.getIndex());
 	        request.setAttribute("isRunning", archvile.isRunning());
@@ -57,7 +58,6 @@ public class IndexController extends Controller {
 	        request.setAttribute("lastRunDuration", archvile.getLastRunDuration());
 	        request.setAttribute("currentRunDuration", archvile.getCurrentRunDuration());
 	        request.setAttribute("urls", archvile.getUrlsSize());
-	        request.setAttribute("queue", archvile.getQueueSize());
 	        request.setAttribute("seedUrl", archvile.getSeedUrl());
 	        request.setAttribute("pagesViewed", archvile.getPagesViewed());
 	        response.sendRedirect(request.getContextPath() + "/" + basePath());
@@ -74,7 +74,6 @@ public class IndexController extends Controller {
 	        request.setAttribute("lastRunDuration", archvile.getLastRunDuration());
 	        request.setAttribute("currentRunDuration", archvile.getCurrentRunDuration());
 	        request.setAttribute("urls", archvile.getUrlsSize());
-	        request.setAttribute("queue", archvile.getQueueSize());
 	        request.setAttribute("pagesViewed", archvile.getPagesViewed());
 	        response.sendRedirect(request.getContextPath() + "/" + basePath());
 	        return null;

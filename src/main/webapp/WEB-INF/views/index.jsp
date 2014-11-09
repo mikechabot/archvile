@@ -12,6 +12,7 @@
     <title>archvile</title>
     <!-- scripts -->
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/underscore-min.js"></script>
     <script src="/js/custom.js"></script>
     <!-- styles -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +35,9 @@
                   <c:choose>
                     <c:when test="${isRunning == true}">
                       <form class="form" role="form" method="post" action="/index/stop">
+                      	<div class="form-group">
+                          <input class="form-control input-lg" type="text" value="${searchTerms}" disabled>
+                        </div>
                         <div class="form-group">
                           <div class="input-group">
                             <div class="input-group-addon"><b>http://</b></div>
@@ -45,13 +49,17 @@
                     </c:when>
                     <c:otherwise>
                       <form class="form" role="form" method="post" onsubmit="return validate()" action="/index/start">
+	                    <div class="form-group">
+	                     <label class="control-label" for="searchTerms"></label>
+                          <input class="form-control input-lg validate" id="searchTerms" name="searchTerms" type="text" placeholder="Enter search terms">
+                        </div>
                         <div class="form-group">
+                         <label class="control-label" for="seedUrl"></label>
                           <div class="input-group">
                             <div class="input-group-addon"><b>http://</b></div>
-                            <input class="form-control input-lg" id="seedUrl" name="seedUrl" type="text" placeholder="www.example.com">
+                            <input class="form-control input-lg validate" id="seedUrl" name="seedUrl" type="text" placeholder="www.example.com">
                             <div class="input-group-addon"><button type="submit" class="glyphicon glyphicon-play btn btn-sm btn-primary"></button></div>
                           </div>
-                          <div id="error" class="text-danger"></div>
                         </div>
                       </form>
                     </c:otherwise>
