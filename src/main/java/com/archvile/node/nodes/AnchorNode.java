@@ -56,31 +56,48 @@ public class AnchorNode extends AbstractNode implements Validator {
 		result = prime * result + ((url == null) ? 0 : url.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			System.out.println("1");
+		if (this == obj)
 			return true;
-		} else 	if (getClass() != obj.getClass()) {
-			System.out.println("2");
+		if (getClass() != obj.getClass())
 			return false;
-		}	
 		AnchorNode other = (AnchorNode) obj;
 		if (url == null) {
-			if (other.url != null) {
-				System.out.println("2");
+			if (other.url != null)
 				return false;
-			}	
 		} else if (!url.equals(other.url.replaceAll("\\/$", ""))) {
-			System.out.println("3");
 			return false;
-		} else if (!url.equals(other.url)) {
-			System.out.println("4");
+		} else if (!url.equals(other.url))
 			return false;
-		}
-		System.out.println("5");
 		return true;
 	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj) {
+//			System.out.println("1");
+//			return true;
+//		} else 	if (getClass() != obj.getClass()) {
+//			System.out.println("2");
+//			return false;
+//		}	
+//		AnchorNode other = (AnchorNode) obj;
+//		if (url == null) {
+//			if (other.url != null) {
+//				System.out.println("2");
+//				return false;
+//			}	
+//		} else if (!url.equals(other.url.replaceAll("\\/$", ""))) {
+//			System.out.println("3");
+//			return false;
+//		} else if (!url.equals(other.url)) {
+//			System.out.println("4");
+//			return false;
+//		}
+//		System.out.println("5");
+//		return true;
+//	}
 	
 }

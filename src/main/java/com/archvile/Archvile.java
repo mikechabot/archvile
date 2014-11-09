@@ -153,7 +153,9 @@ public class Archvile implements Runnable, QueueTask {
 	}
 
 	public void setSearchTerms(String searchTerms) {
-		this.searchTerms = searchTerms.split(" ");
+		if (searchTerms != null) {
+			this.searchTerms = searchTerms.split(" ");	
+		}
 	}
 	
 	public String[] getSearchTerms() {

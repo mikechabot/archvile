@@ -3,9 +3,14 @@
 'use strict';
 $(document).ready(function() {	
     /* Hide error text on input */
-    $(".validate").keydown(function() {
+    $('.validate').keydown(function() {
     	$(this).closest('.form-group').removeClass('has-error');
     	$(this).closest('.form-group').find('.control-label').hide().empty();
+    });
+    $('#toggleSearchTerms').on('click', function() {
+      var isDisabled = $('#searchTerms').prop('disabled');
+      isDisabled ? $('#searchTerms').prop('disabled', false) : $('#searchTerms').prop('disabled', true);
+      $('#toggleSearchTerms').toggleClass('glyphicon-eye-close').toggleClass('glyphicon-eye-open');
     });
 });
 
@@ -22,7 +27,7 @@ function validate() {
 	/* Find missing required fields */
     _.each(requiredFields, function(field) {
         var value = $.trim($('#' + field.id).val());
-        if (!value) {
+        if (!value && !$('#' + field.id).prop('disabled')) {
         	missingFields.push(field);
         }
     });

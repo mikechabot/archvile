@@ -36,7 +36,10 @@
                     <c:when test="${isRunning == true}">
                       <form class="form" role="form" method="post" action="/index/stop">
                       	<div class="form-group">
+                      	<div class="input-group">
                           <input class="form-control input-lg" type="text" value="${searchTerms}" disabled>
+                          <div class="input-group-addon"><button type="button" id="toggleSearchTerms" class="glyphicon glyphicon-eye-open btn btn-sm btn-default disabled"></button></div>
+                          </div>
                         </div>
                         <div class="form-group">
                           <div class="input-group">
@@ -50,15 +53,18 @@
                     <c:otherwise>
                       <form class="form" role="form" method="post" onsubmit="return validate()" action="/index/start">
 	                    <div class="form-group">
-	                     <label class="control-label" for="searchTerms"></label>
+	                    <label class="control-label" for="searchTerms"></label>
+	                    <div class="input-group">
                           <input class="form-control input-lg validate" id="searchTerms" name="searchTerms" type="text" placeholder="Enter search terms">
+                          <div class="input-group-addon"><button type="button" id="toggleSearchTerms" class="glyphicon glyphicon-eye-close btn btn-sm btn-default"></button></div>
+                          </div>
                         </div>
                         <div class="form-group">
                          <label class="control-label" for="seedUrl"></label>
                           <div class="input-group">
                             <div class="input-group-addon"><b>http://</b></div>
                             <input class="form-control input-lg validate" id="seedUrl" name="seedUrl" type="text" placeholder="www.example.com">
-                            <div class="input-group-addon"><button type="submit" class="glyphicon glyphicon-play btn btn-sm btn-primary"></button></div>
+                            <div class="input-group-addon"><button type="submit" class="glyphicon glyphicon-play btn btn-sm btn-success"></button></div>
                           </div>
                         </div>
                       </form>

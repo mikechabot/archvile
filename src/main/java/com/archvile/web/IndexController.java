@@ -3,12 +3,16 @@ package com.archvile.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.archvile.Archvile;
 import com.archvile.service.IndexServiceImpl;
 
 public class IndexController extends Controller {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static Logger log = Logger.getLogger(IndexController.class);
 	
 	private Archvile archvile = new Archvile();
 	private IndexServiceImpl indexService = new IndexServiceImpl();
@@ -46,8 +50,9 @@ public class IndexController extends Controller {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			String seedUrl = request.getParameter("seedUrl");
 			String searchTerms = request.getParameter("searchTerms");
-			if (seedUrl == null || searchTerms == null || seedUrl.isEmpty() || searchTerms.isEmpty()) {
-				return null;
+			if (seedUrl == null || seedUrl.isEmpty()) {
+				log.error("Start request was submitted without a seed URL");
+				throw new IllegalArgumentException();
 			}
 			archvile.setSeedUrl("http://" + seedUrl);
 			archvile.setSearchTerms(searchTerms);
