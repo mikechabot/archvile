@@ -27,7 +27,7 @@ public class AnchorNode extends AbstractNode implements Validator {
 		if (baseUri().endsWith("/") && url.startsWith("/")) url = url.replaceFirst("/", "");
 		return (isRelativeUrl() ? baseUri() + url : url);
 	}
-
+	
 	public boolean isSectionUrl() {
 		return url.contains("#");
 	}
@@ -40,12 +40,20 @@ public class AnchorNode extends AbstractNode implements Validator {
 		return url.startsWith("https");
 	}
 	
+	private boolean isJavaScript() {
+		return url.contains("javascript:");
+	}
+	
 	@Override
 	public boolean isValid() {
-		return (!StringUtil.isEmpty(url) && !isSSL() && !isExcluded(url));
+		return (!StringUtil.isEmpty(url) 
+				&& !isSSL() 
+				&& !isExcluded()
+				&& !isJavaScript());
 	}
 
-	private boolean isExcluded(String url) {
+	@Override
+	public boolean isExcluded() {
 		return ExcludedUrls.isExcluded(url);
 	}
 

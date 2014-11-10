@@ -22,7 +22,7 @@ public class IndexController extends Controller {
 	
 	@Override
 	protected void initActions() {
-		addAction("/get", new GetAction());
+		addAction("/", new GetAction());
 		addAction("/start", new StartAction());
 		addAction("/stop", new StopAction());
 	}
