@@ -14,15 +14,14 @@ import org.junit.Test;
 import com.archvile.node.Nodes;
 import com.archvile.node.nodes.DivNode;
 import com.archvile.page.Page;
-import com.archvile.service.IndexServiceImpl;
 
 public class IndexServiceTest {
 
-	private IndexServiceImpl service;
+	private Index service;
 	
 	@Before
 	public void beforeTest() {
-		service = new IndexServiceImpl();
+		service = new Index();
 	}
 
 	@Test(expected=IllegalArgumentException.class)

@@ -31,4 +31,10 @@ public class MetaNode extends AbstractNode {
 		this.content = content;
 	}
 
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

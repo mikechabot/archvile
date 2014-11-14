@@ -21,8 +21,9 @@ public abstract class AbstractTextNode extends AbstractNode {
 		return text;
 	}
 	
-	public boolean hasText() {
-		return !StringUtil.isEmpty(getText());
+	@Override
+	public boolean isValid() {
+		return !StringUtil.isEmpty(text);
 	}
 	
 	@Override

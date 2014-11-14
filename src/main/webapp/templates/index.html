@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>Index</h3>
+    {{index}}
+  </div>
+  <table class="table table-bordered table-striped table-hover">
+    <tr>
+      <th>Keyword</th>
+      <th>Count</th>
+      <th>Urls</th>
+    </tr>
+    <tr ng-repeat="entry in index">
+      <td>{{entry.keyword}}</td>
+      <td>{{entry.count}}</td>
+      <td>
+        <ul>
+          <li ng-repeat="url in entry.urls"><a href="{{url}}">{{url}}</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"><em>No entries</em></td>
+    </tr>
+  </table>
+</div>

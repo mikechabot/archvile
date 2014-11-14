@@ -6,11 +6,19 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>IndexController</servlet-name>
-	<servlet-class>com.archvile.web.IndexController</servlet-class>
+    <servlet-name>ArchvileService</servlet-name>
+	<servlet-class>com.archvile.web.services.ArchvileService</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>IndexController</servlet-name>
+    <servlet-name>ArchvileService</servlet-name>
+    <url-pattern>/archvile/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>IndexService</servlet-name>
+    <servlet-class>com.archvile.web.services.IndexService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexService</servlet-name>
     <url-pattern>/index/*</url-pattern>
   </servlet-mapping>
 </web-app>

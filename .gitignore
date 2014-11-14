@@ -1,5 +1,6 @@
-/.settings
 /target
-/.classpath
-/.project
 /build.bat
+/archvile.iml
+/projectFilesBackup
+/archvile.ipr
+/archvile.iws

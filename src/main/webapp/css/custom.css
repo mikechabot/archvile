@@ -1,7 +1,16 @@
+body {
+    font-size: 12px;
+    font-family: "Open Sans", verdans, arial, sans-serif;
+}
 .table-statistics th {
-	text-align: right;
+  text-align: right;
+  font-weight: 600;
 }
 
 .control-label {
-	display: none;
+  display: none;
+}
+
+.smaller {
+  font-size: 10px;
 }

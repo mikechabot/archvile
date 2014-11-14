@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.archvile.page.Page;
 
-public interface IndexService {
+public interface Indexable {
 	
 	/**
 	 * Return the index
@@ -20,17 +20,17 @@ public interface IndexService {
 	int getIndexSize();
 	
 	/**
-	 * Add a page to the index; no inclusions
+	 * Add entire page to the index; no inclusions
 	 * @param page
 	 */
 	void addPageToIndex(Page page);
 	
 	/**
-	 * Add page to the index using inclusions
+	 * Add only certain words to the index
 	 * @param page
 	 * @param inclusions
 	 */
-	void addPageToIndex(Page page, List<String> inclusions);
+	void addPageToIndex(Page page, List<String> includeOnlyTheseWords);
 	
 	/**
 	 * Add individual entry to the index

@@ -52,7 +52,7 @@ public class PageService {
 		Page page = new Page();
 		page.setUrl(url);
 		for (Element element : elements) {
-			if (element instanceof AbstractTextNode && !((AbstractTextNode) element).hasText()) {
+			if (element instanceof AbstractTextNode && !((AbstractTextNode) element).isValid()) {
 				continue;
 			} else if(element instanceof AnchorNode) {
 				page.addAnchor((AnchorNode) element);

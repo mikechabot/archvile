@@ -20,17 +20,17 @@ public class DocumentServiceTest {
 		service = new DocumentService();
 	}
 	
-	@Test
-    public void testGetDocumentWithGoodUrl() throws IOException {
-		assertNotNull(service.getDocumentFromUrl("http://www.google.com"));
-		assertNotNull(service.getDocumentFromUrl("http://www.yahoo.com"));
-    }
+//	@Test
+//    public void testGetDocumentWithGoodUrl() throws IOException {
+//		assertNotNull(service.getDocumentFromUrl("http://www.google.com"));
+//		assertNotNull(service.getDocumentFromUrl("http://www.yahoo.com"));
+//    }
 
-	@Test(expected=UnknownHostException.class)
-    public void testGetDocumentWithBadUrl() throws IOException {
-		assertNull(service.getDocumentFromUrl("http://xxx.xxx.xxx.xxx"));
-		assertNull(service.getDocumentFromUrl("http://xxx.xxx.xxx.xxx"));
-    }
+//	@Test(expected=UnknownHostException.class)
+//    public void testGetDocumentWithBadUrl() throws IOException {
+//		assertNull(service.getDocumentFromUrl("http://xxx.xxx.xxx.xxx"));
+//		assertNull(service.getDocumentFromUrl("http://xxx.xxx.xxx.xxx"));
+//    }
 	
 	@Test
     public void testGetDocumentWithGoodLocalUrl() throws IOException {

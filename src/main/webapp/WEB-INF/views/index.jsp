@@ -80,11 +80,11 @@
             <div class="panel-heading">
               <table style="width: 100%;">
               	<tr>
-              		<td></td>
-              	</tr>
-              	<tr>
-              	 <td><h3>Statistics </h3></td>
-              	 <td class="text-right"><a href="/"><button class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button></a></td>
+              	 <td><h3>Statistics</h3></td>
+              	 <td class="text-right">
+              	   <a href="/index"><button class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button></a>
+              	   <a href="/index/delete"><button class="glyphicon glyphicon-remove btn btn-lg btn-default"></button></a>
+              	 </td>
               	</tr>
               </table>
             </div>

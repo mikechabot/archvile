@@ -29,7 +29,7 @@ public class PageServiceTest {
 		File file = new File("src/test/resources/test.html");
 		Document document = Jsoup.parse(file, "UTF-8");
 		Page page = pageGenerator.generatePageFromDocument(document);
-
+		
 		assertNotNull(page);
 		assertNotNull(page.getDivs());
 		assertNotNull(page.getH1s());

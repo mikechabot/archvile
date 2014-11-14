@@ -6,7 +6,7 @@ import com.archvile.node.AbstractNode;
 import com.archvile.utils.ExcludedUrls;
 import com.archvile.utils.StringUtil;
 
-public class AnchorNode extends AbstractNode implements Validator {
+public class AnchorNode extends AbstractNode {
 
 	private String url;
 	
@@ -16,6 +16,7 @@ public class AnchorNode extends AbstractNode implements Validator {
 	}
 
 	private void setUrl(String url) {
+		if (StringUtil.isEmpty(url)) throw new IllegalArgumentException();
 		this.url = url;
 	}
 	
@@ -26,10 +27,6 @@ public class AnchorNode extends AbstractNode implements Validator {
 	public String getAbsoluteUrl() {
 		if (baseUri().endsWith("/") && url.startsWith("/")) url = url.replaceFirst("/", "");
 		return (isRelativeUrl() ? baseUri() + url : url);
-	}
-	
-	public boolean isSectionUrl() {
-		return url.contains("#");
 	}
 	
 	public boolean isRelativeUrl() {
@@ -45,16 +42,15 @@ public class AnchorNode extends AbstractNode implements Validator {
 	}
 	
 	@Override
-	public boolean isValid() {
-		return (!StringUtil.isEmpty(url) 
-				&& !isSSL() 
-				&& !isExcluded()
-				&& !isJavaScript());
-	}
-
-	@Override
-	public boolean isExcluded() {
+	public boolean isDomainExcluded() {
 		return ExcludedUrls.isExcluded(url);
+	}
+	
+	@Override
+	public boolean isValid() {
+		return (!isDomainExcluded()
+				&& !isSSL()
+				&& !isJavaScript());
 	}
 
 	@Override

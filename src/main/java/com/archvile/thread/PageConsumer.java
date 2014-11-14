@@ -3,17 +3,17 @@ package com.archvile.thread;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import com.archvile.index.Index;
 import org.apache.log4j.Logger;
 
 import com.archvile.page.Page;
-import com.archvile.service.IndexServiceImpl;
 
 public class PageConsumer implements Runnable {
 
 	private static final Logger log = Logger.getLogger(PageConsumer.class);
 	
 	private Thread thread;
-	private IndexServiceImpl indexService = new IndexServiceImpl();
+	private Index indexService = new Index();
 	private ArrayBlockingQueue<Page> queue;
 	
 	private List<String> searchTerms;
@@ -24,6 +24,9 @@ public class PageConsumer implements Runnable {
 		this.searchTerms = searchTerms;
 	}
 
+    /**
+     * Start the consumer
+     */
 	public void start() {
 		if (!isRunning) {
 			if (thread == null) {
@@ -33,7 +36,10 @@ public class PageConsumer implements Runnable {
 			thread.start();
 		}		
 	}
-	
+
+    /**
+     * Stop the consumer
+     */
 	public void stop() {
 		if (isRunning) {
 			log.info("Stopping consumer...");
@@ -41,7 +47,10 @@ public class PageConsumer implements Runnable {
 			thread.interrupt();
 		}
 	}
-	
+
+    /**
+     * Add Page objects to the index
+     */
 	@Override
 	public void run() {
 		isRunning = true;

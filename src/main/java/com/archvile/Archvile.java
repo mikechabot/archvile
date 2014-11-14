@@ -27,6 +27,8 @@ public class Archvile implements Runnable, QueueTask {
 
 	private static Logger log = Logger.getLogger(Archvile.class);
 	
+	public static Archvile archvile;
+	
 	private Thread thread;
 	
 	private CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<>();
@@ -44,37 +46,54 @@ public class Archvile implements Runnable, QueueTask {
 	private int pagesViewed;
 	
 	
-	public Archvile() { }
+	private Archvile() { }
 	
+	public static Archvile getInstance() {
+		if (archvile == null) {
+			archvile = new Archvile();
+		}
+		return archvile;
+	}
+
 	private Archvile(String seedUrl) {
 		this.seedUrl = seedUrl;
 		urls.add(seedUrl);
 	}
 
 	public static void main (String[] args) throws IOException {
-		Archvile archvile = new Archvile("http://www.woot.com");
+		Archvile archvile = new Archvile("htt://localhost");
 		archvile.start();
 	}
-	
+
+    /**
+     * Start archvile
+     */
 	@Override
 	public void start() {
 		if (!isRunning) {
 			isRunning = true;
-			
+
+            /* Set up the thread pool and blocking queue */
 			executor = Executors.newFixedThreadPool(10);
-			queue = new ArrayBlockingQueue<Page>(50);
-			
+			queue = new ArrayBlockingQueue<>(50);
+
+            /* Setup the thread-safe list */
 			urls = new CopyOnWriteArrayList<>();
 			urls.add(seedUrl);
-			
+
+            /* Start up the consumer */
 			consumer = new PageConsumer(queue, searchTerms == null ? null : Arrays.asList(searchTerms));
 			consumer.start();
-			
+
+            /* Start archvile */
 			thread = new Thread(this);
 			thread.start();
 		}
 	}
 
+    /**
+     * Stop archvile
+     */
 	@Override
 	public void stop() {
 		if (isRunning) {
@@ -86,26 +105,46 @@ public class Archvile implements Runnable, QueueTask {
 		}		
 	}
 
-	@Override
-	public boolean isRunning() {
-		return isRunning;
-	}
+    /**
+     * Return whether archvile is running
+     * @return
+     */
+    @Override
+    public boolean isRunning() {
+        return isRunning;
+    }
 
-	@Override
-	public String getLastRunDate() {
-		return start == 0 ? null : TimeUtil.getDateFromLong(start);
-	}
+    /**
+     * Get last run date
+     * @return
+     */
+    @Override
+    public String getLastRunDate() {
+        return start == 0 ? null : TimeUtil.getDateFromLong(start);
+    }
 
-	@Override
-	public String getLastRunDuration() {
-		return stop == 0 ? null : TimeUtil.getDurationFromLongs(start, stop);
-	}
+    /**
+     * Get duration of las run
+     * @return
+     */
+    @Override
+    public String getLastRunDuration() {
+        return stop == 0 ? null : TimeUtil.getDurationFromLongs(start, stop);
+    }
 
-	@Override
-	public String getCurrentRunDuration() {
-		return !isRunning ? null : TimeUtil.getDurationFromLongs(start, System.currentTimeMillis());		
-	}
+    /**
+     * If running, return the current running duration
+     * @return
+     */
+    @Override
+    public String getCurrentRunDuration() {
+        return !isRunning ? null : TimeUtil.getDurationFromLongs(start, System.currentTimeMillis());
+    }
 
+    /**
+     * Generate Page objects with PageProducers, and consume
+     * them with the PageConsumer, which adds them to an index
+     */
 	@Override
 	public void run() {
 		start = System.currentTimeMillis();
@@ -134,7 +173,7 @@ public class Archvile implements Runnable, QueueTask {
 			stop = System.currentTimeMillis();
 		}
 	}
-	
+
 	public void setSeedUrl(String seedUrl) {
 		this.seedUrl = seedUrl;
 		urls.add(seedUrl);
@@ -156,10 +195,6 @@ public class Archvile implements Runnable, QueueTask {
 		if (searchTerms != null) {
 			this.searchTerms = searchTerms.split(" ");	
 		}
-	}
-	
-	public String[] getSearchTerms() {
-		return searchTerms;
 	}
 
 }
