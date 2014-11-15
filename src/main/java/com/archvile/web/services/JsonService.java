@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonElement;
 import org.apache.log4j.Logger;
 
 import com.google.gson.JsonObject;
@@ -38,14 +39,14 @@ public abstract class JsonService extends HttpServlet {
 	
 	public void doExecute(HttpMethod method, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (isActionImplemented(method)) {
-			JsonObject json = actions.get(method).execute(request, response);
+			JsonElement json = actions.get(method).execute(request, response);
 			respond(response, json);
 		} else {
 			response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
 		}
 	}
 
-	public void respond(HttpServletResponse response, JsonObject json) throws IOException {
+	public void respond(HttpServletResponse response, JsonElement json) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter printout = response.getWriter();
 		printout.print(json);

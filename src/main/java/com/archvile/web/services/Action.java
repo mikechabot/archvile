@@ -3,6 +3,7 @@ package com.archvile.web.services;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -19,6 +20,6 @@ public abstract class Action {
 		return methodType;
 	}
 
-	public abstract JsonObject execute(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+	public abstract JsonElement execute(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 	
 }

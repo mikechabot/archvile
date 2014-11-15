@@ -42,7 +42,7 @@ public class ArchvileService extends JsonService {
     public class GetAction extends Action {
         public GetAction(HttpMethod methodType) { super(methodType); }
         @Override
-        public JsonObject execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
             String action = request.getPathInfo();
             if (getActions.get(action) == null) {
                 response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
@@ -56,7 +56,7 @@ public class ArchvileService extends JsonService {
     public class PostAction extends Action {
         public PostAction(HttpMethod methodType) { super(methodType); }
         @Override
-        public JsonObject execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
             String action = request.getPathInfo();
             if (postActions.get(action) == null) {
                 response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
@@ -70,7 +70,7 @@ public class ArchvileService extends JsonService {
     public class GetStatisticsAction extends Action {
         public GetStatisticsAction(HttpMethod methodType) { super(methodType); }
         @Override
-        public JsonObject execute(HttpServletRequest request, HttpServletResponse response) {
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) {
             /* Build a JSON object with statistics */
             JsonObject json = new JsonObject();
             json.addProperty("isRunning", archvile.isRunning());
@@ -88,7 +88,7 @@ public class ArchvileService extends JsonService {
     public class PostStartAction extends Action {
         public PostStartAction(HttpMethod methodType) { super(methodType); }
         @Override
-        public JsonObject execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
             /* Get parameters from the request */
             String json = getRequestBody(request);
             JsonObject object = new JsonParser().parse(json).getAsJsonObject();
@@ -117,7 +117,7 @@ public class ArchvileService extends JsonService {
     public class PostStopAction extends Action {
         public PostStopAction(HttpMethod methodType) { super(methodType); }
         @Override
-        public JsonObject execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
             /* Stop archvile */
             archvile.stop();
             /* Send back a results object */

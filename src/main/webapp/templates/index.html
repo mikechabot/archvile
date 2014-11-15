@@ -1,7 +1,16 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3>Index</h3>
-    {{index}}
+    <table style="width: 100%;">
+      <tr>
+        <td>
+          <h3>Index</h3>
+        </td>
+        <td class="text-right">
+          <button ng-click="refreshIndex()" ng-class="refreshIndexClass" class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button>
+          <button class="glyphicon glyphicon-remove btn btn-lg btn-default"></button>
+        </td>
+      </tr>
+    </table>
   </div>
   <table class="table table-bordered table-striped table-hover">
     <tr>
@@ -9,7 +18,7 @@
       <th>Count</th>
       <th>Urls</th>
     </tr>
-    <tr ng-repeat="entry in index">
+    <tr ng-show="index != null" ng-repeat="entry in index">
       <td>{{entry.keyword}}</td>
       <td>{{entry.count}}</td>
       <td>
@@ -18,7 +27,7 @@
         </ul>
       </td>
     </tr>
-    <tr>
+    <tr ng-hide="index != null">
       <td colspan="3" class="text-center"><em>No entries</em></td>
     </tr>
   </table>

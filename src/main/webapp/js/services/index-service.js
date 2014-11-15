@@ -6,8 +6,8 @@ svc.service('IndexService', function ($http) {
 
   function success(response) {
     indexCache.data = response.data;
-    indexCache.lastUpdated = new Date().getTime();
     console.log(indexCache.data);
+    indexCache.lastUpdated = new Date().getTime();
     return indexCache;
   }
 

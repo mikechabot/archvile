@@ -30,19 +30,19 @@ app.directive('statistics', function () {
     templateUrl: 'templates/statistics.html',
     controller: function ($scope, $timeout) {
 
-      var glyphClass = {
+      var glyph = {
         idle: 'glyphicon-refresh',
         active: 'glyphicon-download-alt'
       };
 
-      $scope.refreshClass = glyphClass.idle;
+      $scope.refreshStatisticsClass = glyph.idle;
 
       /* Refresh statistics */
-      $scope.refresh = function () {
-        $scope.refreshClass = glyphClass.active;
+      $scope.refreshStatistics = function () {
+        $scope.refreshStatisticsClass = glyph.active;
         $timeout(function () {
           $scope.loadStatistics();
-          $scope.refreshClass = glyphClass.idle;
+          $scope.refreshStatisticsClass = glyph.idle;
         }, 100);
       };
     }
@@ -92,7 +92,13 @@ app.directive('index', function () {
   return {
     restrict: 'E',
     templateUrl: 'templates/index.html',
-    controller: function ($scope, IndexService) {
+    controller: function ($scope, $timeout, IndexService) {
+
+      var glyph = {
+        idle: 'glyphicon-refresh',
+        active: 'glyphicon-download-alt'
+      };
+
       /* Set scope data */
       function setIndex(index) {
         $scope.index = index.data;
@@ -105,8 +111,25 @@ app.directive('index', function () {
             setIndex(index);
           });
       };
-      /* Load statistics when the directive is initialized */
+      /* Load index when the directive is initialized */
       $scope.loadIndex();
+
+      /* Refresh index */
+      $scope.refreshIndex = function () {
+        $scope.refreshIndexClass = glyph.active;
+        $timeout(function () {
+          $scope.loadIndex();
+          $scope.refreshIndexClass = glyph.idle;
+        }, 100);
+      };
+
+      /* Refresh index */
+      $scope.deleteIndex = function () {
+        $timeout(function () {
+          $scope.deleteIndex();
+        }, 100);
+      };
+
     }
   };
 });
