@@ -53,4 +53,9 @@ public interface Indexable {
 	 */
 	IndexEntry get(String keyword);
 
+    /**
+     * Delete the index
+     */
+    void deleteIndex();
+
 }

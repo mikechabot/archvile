@@ -3,6 +3,7 @@ package com.archvile.web.services;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.archvile.utils.StringUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.apache.log4j.Logger;
@@ -37,6 +38,7 @@ public class ArchvileService extends JsonService {
         getActions.put("/statistics", new GetStatisticsAction(HttpMethod.GET));
         postActions.put("/start", new PostStartAction(HttpMethod.POST));
         postActions.put("/stop", new PostStopAction(HttpMethod.POST));
+        postActions.put("/status", new PostStatusAction(HttpMethod.POST));
     }
 
     public class GetAction extends Action {
@@ -73,7 +75,6 @@ public class ArchvileService extends JsonService {
         public JsonElement execute(HttpServletRequest request, HttpServletResponse response) {
             /* Build a JSON object with statistics */
             JsonObject json = new JsonObject();
-            json.addProperty("isRunning", archvile.isRunning());
             json.addProperty("seedUrl", archvile.getSeedUrl());
             json.addProperty("lastRunDate", archvile.getLastRunDate());
             json.addProperty("lastRunDuration", archvile.getLastRunDuration());
@@ -89,27 +90,34 @@ public class ArchvileService extends JsonService {
         public PostStartAction(HttpMethod methodType) { super(methodType); }
         @Override
         public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            /* Get parameters from the request */
-            String json = getRequestBody(request);
-            JsonObject object = new JsonParser().parse(json).getAsJsonObject();
-            JsonElement searchTerms = object.get("searchTerms");
-            JsonElement seedUrl = object.get("seedUrl");
-            /* Ensure a URL was passed */
-            if (seedUrl == null || seedUrl.getAsString().isEmpty()) {
-                log.error("Start request was submitted without a seed URL");
-                throw new IllegalArgumentException();
-            }
-            /* Set parameters and start the crawler */
-            archvile.setSeedUrl("http://" + seedUrl.getAsString());
-            archvile.setSearchTerms(searchTerms == null ? null : searchTerms.getAsString());
-            archvile.start();
-            /* Send back a results object */
             JsonObject results = new JsonObject();
-            if (archvile.isRunning()) {
-                results.addProperty("success", true);
-            } else {
+            try {
+                /* Get parameters from the request */
+                String json = getRequestBody(request);
+                JsonObject object = new JsonParser().parse(json).getAsJsonObject();
+
+                /* Ensure a seed URL was provided */
+                JsonElement seedUrl = object.get("seedUrl");
+                if (seedUrl == null || seedUrl.getAsString().isEmpty()) {
+                    log.error("Start request cannot be initiated without a seed URL");
+                    results.addProperty("success", false);
+                    return results;
+                }
+                /* Get the search term */
+                JsonElement searchTerms = object.get("searchTerms");
+
+                /* Set parameters and start the crawler */
+                archvile.setSeedUrl("http://" + seedUrl.getAsString());
+                archvile.setSearchTerms(searchTerms == null ? null : searchTerms.getAsString());
+                archvile.start();
+
+            } catch (IllegalArgumentException e) {
+                log.error("Request body cannot be null", e);
                 results.addProperty("success", false);
             }
+
+            /* Send back a results object */
+            results.addProperty("isRunning", archvile.isRunning());
             return results;
         }
     }
@@ -117,16 +125,22 @@ public class ArchvileService extends JsonService {
     public class PostStopAction extends Action {
         public PostStopAction(HttpMethod methodType) { super(methodType); }
         @Override
-        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) {
             /* Stop archvile */
             archvile.stop();
             /* Send back a results object */
             JsonObject results = new JsonObject();
-            if (!archvile.isRunning()) {
-                results.addProperty("success", true);
-            } else {
-                results.addProperty("success", false);
-            }
+            results.addProperty("isRunning", archvile.isRunning());
+            return results;
+        }
+    }
+
+    public class PostStatusAction extends Action {
+        public PostStatusAction(HttpMethod methodType) { super(methodType); }
+        @Override
+        public JsonElement execute(HttpServletRequest request, HttpServletResponse response) {
+            JsonObject results = new JsonObject();
+            results.addProperty("isRunning", archvile.isRunning());
             return results;
         }
     }

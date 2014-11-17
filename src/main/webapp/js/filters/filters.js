@@ -12,6 +12,13 @@ filters.filter('emptyString', function () {
   };
 });
 
+filters.filter('commaSeparated', function () {
+  return function (input) {
+    if (angular.isDefined(input)) return input.replace(/\s/g, ', ');
+    return input;
+  };
+});
+
 filters.filter('longToDate', function () {
   return function (input) {
     var date = new Date(input);

@@ -1,13 +1,13 @@
 var svc = angular.module('archvileService', []);
 
-svc.service('ArchvileService', function ($http) {
+svc.service('ArchvileService', function ($http, $rootScope) {
 
-  var statsCache = {};
+  var isRunning;
 
   function success(response) {
-    statsCache.data = response.data;
-    statsCache.lastUpdated = new Date().getTime();
-    return statsCache;
+    isRunning = response.data.isRunning;
+    $rootScope.$broadcast('isRunning', isRunning);
+    return isRunning;
   }
 
   function error(response) {
@@ -34,23 +34,18 @@ svc.service('ArchvileService', function ($http) {
     return (request.then(success, error));
   }
 
-  function loadStatistics() {
+  function isRunning() {
     var request = $http({
-      url: '/archvile/statistics',
-      method: 'GET'
+      url: '/archvile/status',
+      method: 'POST'
     });
     return (request.then(success, error));
-  }
-
-  function getStatistics() {
-    return statsCache;
   }
 
   return ({
      startArchvile: startArchvile,
       stopArchvile: stopArchvile,
-     getStatistics: getStatistics,
-    loadStatistics: loadStatistics
+         isRunning: isRunning
   });
 
 });

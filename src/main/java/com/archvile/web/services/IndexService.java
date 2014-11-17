@@ -21,6 +21,12 @@ public class IndexService extends JsonService {
     @Override
     public void init() {
         registerAction(new GetAction(HttpMethod.GET));
+        registerAction(new DeleteAction(HttpMethod.DELETE));
+    }
+
+    @Override
+    protected void registerRestActions() {
+        //
     }
 
     public class GetAction extends Action {
@@ -51,8 +57,21 @@ public class IndexService extends JsonService {
         }
     }
 
-    @Override
-    protected void registerRestActions() {
-        //
+    public class DeleteAction extends Action {
+        public DeleteAction(HttpMethod methodType) {
+            super(methodType);
+        }
+
+        @Override
+        public JsonObject execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+            index.deleteIndex();
+            JsonObject results = new JsonObject();
+            if (index.getIndex().size() == 0) {
+                results.addProperty("success", true);
+            } else {
+                results.addProperty("success", false);
+            }
+            return results;
+        }
     }
 }

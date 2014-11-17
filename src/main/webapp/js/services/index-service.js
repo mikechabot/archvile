@@ -6,7 +6,6 @@ svc.service('IndexService', function ($http) {
 
   function success(response) {
     indexCache.data = response.data;
-    console.log(indexCache.data);
     indexCache.lastUpdated = new Date().getTime();
     return indexCache;
   }
@@ -18,6 +17,7 @@ svc.service('IndexService', function ($http) {
   function loadIndex() {
     var request = $http({
       url: '/index',
+      async: true,
       method: 'GET'
     });
     return (request.then(success, error));
@@ -27,9 +27,18 @@ svc.service('IndexService', function ($http) {
     return indexCache;
   }
 
+  function deleteIndex() {
+    var request = $http({
+      url: '/index',
+      method: 'DELETE'
+    });
+    return (request.then(success, error));
+  }
+
   return ({
     getIndex: getIndex,
-    loadIndex: loadIndex
+    loadIndex: loadIndex,
+    deleteIndex: deleteIndex
   });
 
 });

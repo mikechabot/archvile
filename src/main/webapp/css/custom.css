@@ -7,6 +7,11 @@ body {
   font-weight: 600;
 }
 
+.search-query {
+  font-size: 12px;
+  font-family: Consolas, monospace;
+}
+
 .control-label {
   display: none;
 }

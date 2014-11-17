@@ -5,9 +5,9 @@
         <td>
           <h3>Index</h3>
         </td>
-        <td class="text-right">
-          <button ng-click="refreshIndex()" ng-class="refreshIndexClass" class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button>
-          <button class="glyphicon glyphicon-remove btn btn-lg btn-default"></button>
+        <td ng-show="index.length > 0" class="text-right">
+          <button  ng-click="refreshIndex()" ng-class="refreshIndexClass" class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button>
+          <button ng-click="deleteIndex()" class="glyphicon glyphicon-remove btn btn-lg btn-default"></button>
         </td>
       </tr>
     </table>
@@ -18,7 +18,7 @@
       <th>Count</th>
       <th>Urls</th>
     </tr>
-    <tr ng-show="index != null" ng-repeat="entry in index">
+    <tr ng-show="index.length > 0" ng-repeat="entry in index">
       <td>{{entry.keyword}}</td>
       <td>{{entry.count}}</td>
       <td>
@@ -27,7 +27,7 @@
         </ul>
       </td>
     </tr>
-    <tr ng-hide="index != null">
+    <tr ng-hide="index.length > 0">
       <td colspan="3" class="text-center"><em>No entries</em></td>
     </tr>
   </table>

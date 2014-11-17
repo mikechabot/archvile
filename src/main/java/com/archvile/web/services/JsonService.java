@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.archvile.utils.StringUtil;
 import com.google.gson.JsonElement;
 import org.apache.log4j.Logger;
 
@@ -98,7 +99,7 @@ public abstract class JsonService extends HttpServlet {
      */
 	@Override
 	public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doExecute(HttpMethod.GET, request, response);
+		doExecute(HttpMethod.DELETE, request, response);
 	}
 
     /**
@@ -107,7 +108,7 @@ public abstract class JsonService extends HttpServlet {
      * @return
      * @throws IOException
      */
-    protected String getRequestBody(HttpServletRequest request) throws IOException {
+    protected String getRequestBody(HttpServletRequest request) throws IllegalArgumentException, IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         InputStream inputStream = null;
@@ -133,6 +134,7 @@ public abstract class JsonService extends HttpServlet {
                 inputStream.close();
             }
         }
+        if (StringUtil.isEmpty(sb.toString())) throw new IllegalArgumentException("Request body cannot be empty");
         return sb.toString();
     }
 	

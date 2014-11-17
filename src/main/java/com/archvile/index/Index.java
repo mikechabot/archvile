@@ -74,8 +74,13 @@ public class Index implements Indexable {
 	public IndexEntry get(String keyword) {
 		return index.get(keyword);
 	}
-	
-	/**
+
+    @Override
+    public void deleteIndex() {
+        index = new ConcurrentHashMap<>();
+    }
+
+    /**
 	 * Determine whether a word is contained within a list
 	 * @param searchTerms
 	 * @param word
@@ -87,5 +92,6 @@ public class Index implements Indexable {
 		}
 		return false;
 	}
+
 
 }
