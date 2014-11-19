@@ -16,7 +16,6 @@ public class AnchorNode extends AbstractNode {
 	}
 
 	private void setUrl(String url) {
-		if (StringUtil.isEmpty(url)) throw new IllegalArgumentException();
 		this.url = url;
 	}
 	

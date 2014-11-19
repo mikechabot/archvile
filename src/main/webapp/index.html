@@ -1,171 +1,206 @@
 <!DOCTYPE html>
 <html ng-app="archvile" lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>archvile</title>
-    <!-- fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
-    <!-- styles -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/custom.css" rel="stylesheet">
-    <!-- scripts -->
-    <script src="/js/third-party/angular.min.js"></script>
-    <script src="/js/third-party/underscore-min.js"></script>
-    <script src="/js/angular-archvile.js"></script>
-    <script src="/js/services/archvile-service.js"></script>
-    <script src="/js/services/index-service.js"></script>
-    <script src="/js/services/statistics-service.js"></script>
-    <script src="/js/filters/filters.js"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="container">
-      <div class="page-header">
-        <h1>archvile <small>custom web crawler</small></h1>
-      </div>
-
-      <div archvile class="row">
-
-      <div ng-controller="ControlsCtrl" class="col-lg-8 col-md-7 col-sm-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3>Controls</h3>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <form class="form" role="form">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="text" ng-model="searchTerms" ng-disabled="isSearchDisabled" class="form-control input-lg" placeholder="Enter search terms" >
-                      <div class="input-group-addon">
-                        <button type="button" class="glyphicon btn btn-sm btn-default" ng-class="{'glyphicon-eye-close': !isSearchDisabled, 'glyphicon-eye-open': isSearchDisabled}" ng-click="isSearchDisabled = !isSearchDisabled"></button>
-                      </div>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>archvile</title>
+  <!-- fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  <!-- styles -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/custom.css" rel="stylesheet">
+  <!-- scripts -->
+  <script src="/js/third-party/angular.min.js"></script>
+  <script src="/js/third-party/underscore-min.js"></script>
+  <script src="/js/third-party/ui-bootstrap-0.12.0.min.js"></script>
+  <script src="/js/angular-archvile.js"></script>
+  <script src="/js/services/archvile-service.js"></script>
+  <script src="/js/services/index-service.js"></script>
+  <script src="/js/services/statistics-service.js"></script>
+  <script src="/js/filters/filters.js"></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1>archvile <small>custom web crawler</small></h1>
+  </div>
+  <div class="row">
+    <div ng-controller="SearchCtrl" class="col-lg-8 col-md-7 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3>Controls</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <form class="form" role="form">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" ng-model="searchTerms" ng-disabled="isSearchDisabled" class="form-control input-lg" placeholder="Enter search terms" >
+                    <div class="input-group-addon">
+                      <button type="button" class="glyphicon btn btn-sm btn-default" ng-class="{'glyphicon-eye-close': !isSearchDisabled, 'glyphicon-eye-open': isSearchDisabled}" ng-click="isSearchDisabled = !isSearchDisabled"></button>
+                    </div>
+                    <!--<label class="checkbox-inline">-->
+                      <!--<input type="checkbox" id="inlineCheckbox1" value="option1"> Ignore-->
+                    <!--</label>-->
+                    <!--<label class="checkbox-inline">-->
+                      <!--<input type="checkbox" id="inlineCheckbox2" value="option2"> 2-->
+                    <!--</label>-->
+                    <!--<label class="checkbox-inline">-->
+                      <!--<input type="checkbox" id="inlineCheckbox3" value="option3"> 3-->
+                    <!--</label>-->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon"><b>http://</b></div>
+                    <input ng-model="seedUrl" class="form-control input-lg" type="text" placeholder="www.example.com">
+                    <div class="input-group-addon">
+                      <button ng-hide="isRunning" ng-click="start()" class="glyphicon glyphicon-play btn btn-sm btn-success"></button>
+                      <button ng-show="isRunning" ng-click="stop()" class="glyphicon glyphicon-stop btn btn-sm btn-danger"></button>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon"><b>http://</b></div>
-                      <input ng-model="seedUrl" class="form-control input-lg" type="text" placeholder="www.example.com">
-                      <div class="input-group-addon">
-                        <button ng-hide="isRunning" ng-click="start()" class="glyphicon glyphicon-play btn btn-sm btn-success"></button>
-                        <button ng-show="isRunning" ng-click="stop()" class="glyphicon glyphicon-stop btn btn-sm btn-danger"></button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 search-query">
-                > Search for
-                   <em ng-show="searchTerms == null || searchTerms.length == 0 || isSearchDisabled"><b>everything</b></em>
-                   <em ng-show="searchTerms != null && searchTerms.length > 0 && !isSearchDisabled"><b>"{{searchTerms | commaSeparated}}"</b></em>
-                  on <em><b>http://{{seedUrl}}</b></em>
-              </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 search-query">
+              > Search for
+              <em ng-show="searchTerms == null || searchTerms.length == 0 || isSearchDisabled"><b>everything</b></em>
+              <em ng-show="searchTerms != null && searchTerms.length > 0 && !isSearchDisabled"><b>"{{searchTerms | commaSeparated}}"</b></em>
+              on <em><b>http://{{seedUrl}}</b></em>
             </div>
           </div>
         </div>
       </div>
-
-      <div ng-controller="StatsCtrl" class="col-lg-4 col-md-5 col-sm-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <table style="width: 100%;">
-              <tr>
-                <td>
-                  <h3>Statistics</h3>
-                </td>
-                <td class="text-right">
-                  <button ng-click="loadStatistics()" ng-class="{'glyphicon-download-alt': isLoading, 'glyphicon-refresh': !isLoading}" class="glyphicon btn btn-lg btn-default"></button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <table class="table table-statistics">
-            <tr>
-              <th>Is Running:</th>
-              <td>{{isRunning | yesNo}}</td>
-            </tr>
-            <tr>
-              <th>Last Run Date:</th>
-              <td>{{statistics.lastRunDate | emptyString}}</td>
-            </tr>
-            <tr>
-              <th>Last Run Duration:</th>
-              <td>{{statistics.lastRunDuration | emptyString}}</td>
-            </tr>
-            <tr>
-              <th>Current Run Duration:</th>
-              <td>{{statistics.currentRunDuration | emptyString}}</td>
-            </tr>
-            <tr>
-              <th>Seed URL:</th>
-              <td>{{statistics.seedUrl | emptyString}}</td>
-            </tr>
-            <tr>
-              <th>Pages viewed:</th>
-              <td>{{statistics.pagesViewed}}</td>
-            </tr>
-            <tr>
-              <th>URLs in queue:</th>
-              <td>{{statistics.urlsSize}}</td>
-            </tr>
-          </table>
-          <div class="panel-footer">
-            </b><span class="text-muted smaller"><b>Updated:</b> <span ng-hide="lastUpdated == null" ng-bind="lastUpdated | longToDate"></span></span>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      <div ng-controller="IndexCtrl" class="panel panel-default">
+    </div>
+    <div ng-controller="StatsCtrl" class="col-lg-4 col-md-5 col-sm-6">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <table style="width: 100%;">
             <tr>
               <td>
-                <h2>Index</h2>
-                <span class="smaller text-muted">
-                   <b>Updated:</b> <span ng-hide="lastUpdated == null" ng-bind="lastUpdated | longToDate"></span>
-                </span>
+                <h3>Statistics</h3>
               </td>
-              <td ng-show="index.length > 0 || isRunning" class="text-right">
-                <button ng-click="loadIndex()" ng-class="{'glyphicon-refresh': !isLoading, 'glyphicon-download-alt': isLoading}" class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button>
-                <button ng-click="deleteIndex()" ng-class="{disabled: isRunning}" class="glyphicon glyphicon-remove btn btn-lg btn-default"></button>
+              <td class="text-right">
+                <button ng-click="loadStatistics()" ng-class="{'glyphicon-download-alt': isLoading, 'glyphicon-refresh': !isLoading}" class="glyphicon btn btn-lg btn-default"></button>
               </td>
             </tr>
           </table>
         </div>
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-statistics">
           <tr>
-            <th>Keyword</th>
-            <th>Count</th>
-            <th>Urls</th>
+            <th>Is Running:</th>
+            <td>{{isRunning | yesNo}}</td>
           </tr>
-          <tr ng-hide="isLoading" ng-repeat="entry in index">
-            <td>{{entry.keyword}}</td>
-            <td>{{entry.count}}</td>
-            <td>
-              <ul>
-                <li ng-repeat="url in entry.urls"><a href="{{url}}">{{url}}</a></li>
-              </ul>
-            </td>
+          <tr>
+            <th>Last Run Date:</th>
+            <td>{{statistics.lastRunDate | emptyString}}</td>
           </tr>
-          <tr ng-show="isLoading">
-            <td colspan="3" class="text-center"><img src="img/ajax_loader_gray_128.gif"></td>
+          <tr>
+            <th>Last Run Duration:</th>
+            <td>{{statistics.lastRunDuration | emptyString}}</td>
           </tr>
-          <tr ng-show="!isLoading && index.length == 0">
-            <td colspan="3" class="text-center"><em>No entries</em></td>
+          <tr>
+            <th>Current Run Duration:</th>
+            <td>{{statistics.currentRunDuration | emptyString}}</td>
+          </tr>
+          <tr>
+            <th>Seed URL:</th>
+            <td>{{statistics.seedUrl | emptyString}}</td>
+          </tr>
+          <tr>
+            <th>URLs visited:</th>
+            <td>{{statistics.urlsVisited.length}}</td>
+          </tr>
+          <tr>
+            <th>URLs in queue:</th>
+            <td>{{statistics.urlsSize}}</td>
           </tr>
         </table>
+        <div class="panel-footer">
+          </b><span class="text-muted smaller"><b>Updated:</b> <span ng-hide="lastUpdated == null" ng-bind="lastUpdated | longToDate"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="statistics.urlsVisited.length > 0" ng-controller="StatsCtrl" class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <h3>URLs Visited</h3>
+              </td>
+              <td class="text-right">
+                <button ng-click="isCollapsed = !isCollapsed" ng-class="{'glyphicon-plus': isCollapsed, 'glyphicon-minus': !isCollapsed}" class="glyphicon btn btn-lg btn-default"></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div collapse="isCollapsed">
+          <table class="table table-condensed table-striped table-hover">
+            <tr>
+              <th>#</th>
+              <th>URL</th>
+            </tr>
+            <tr ng-repeat="url in statistics.urlsVisited track by $index">
+              <td>{{$index+1}}</td>
+              <td>{{url}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
 
     </div>
-  </body>
+  </div>
+
+  <div ng-show="index.length > 0" ng-controller="IndexCtrl" class="panel panel-default">
+    <div class="panel-heading">
+      <table style="width: 100%;">
+        <tr>
+          <td>
+            <h2>Index</h2>
+                <span class="smaller text-muted">
+                <b>Updated:</b> <span ng-hide="lastUpdated == null" ng-bind="lastUpdated | longToDate"></span>
+                </span>
+          </td>
+          <td ng-show="isRunning" class="text-right">
+            <button ng-click="loadIndex()" ng-class="{'glyphicon-refresh': !isLoading, 'glyphicon-download-alt': isLoading}" class="glyphicon glyphicon-refresh btn btn-lg btn-default"></button>
+            <button ng-click="deleteIndex()" ng-class="{disabled: isRunning}" class="glyphicon glyphicon-remove btn btn-lg btn-default"></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+      <tr>
+        <th>Keyword</th>
+        <th>Count</th>
+        <th>Urls</th>
+      </tr>
+      <tr ng-hide="isLoading" ng-repeat="entry in index">
+        <td>{{entry.keyword}}</td>
+        <td>{{entry.count}}</td>
+        <td>
+          <ul>
+            <li ng-repeat="url in entry.urls"><a href="{{url}}">{{url}}</a></li>
+          </ul>
+        </td>
+      </tr>
+      <tr ng-show="isLoading">
+        <td colspan="3" class="text-center"><img src="img/ajax_loader_gray_128.gif"></td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
 </html>

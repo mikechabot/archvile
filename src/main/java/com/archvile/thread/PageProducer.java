@@ -1,6 +1,8 @@
 package com.archvile.thread;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
@@ -35,7 +37,7 @@ public class PageProducer implements Callable<List<AnchorNode>> {
 	@Override
 	public List<AnchorNode> call() throws Exception {
 		log.info("Starting a producer with url '" + url + "'");
-		List<AnchorNode> urls = null;
+		List<AnchorNode> urls = new ArrayList<>(0);
 		try {
 			Document document = documentService.getDocumentFromUrl(url);
 			Page page = pageService.generatePageFromDocument(document);
@@ -46,12 +48,14 @@ public class PageProducer implements Callable<List<AnchorNode>> {
 					queue.notify();
 				}	
 			}
-		} catch (IOException e) {
+		} catch (SocketTimeoutException e) {
+            log.error("Socket timeout ", e);
+        } catch (IOException e) {
 			log.error("Error retrieving document from '" + url + "': ", e);
 		} catch (InterruptedException e) {
-			log.error("Unable to add document to queue: ", e);
+			log.error("PageProducer interrupted", e);
 		}
-		log.info("Returning " + urls == null ? 0 : urls.size() + " urls from '" + url + "'");
+		log.info("Returning " + urls.size() + " urls from '" + url + "'");
 		return urls;
 	}
 }

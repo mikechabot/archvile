@@ -1,7 +1,9 @@
 package com.archvile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -43,7 +45,7 @@ public class Archvile implements Runnable, QueueTask {
 	
 	private long start;
 	private long stop;
-	private int pagesViewed;
+	private List<String> urlsVisited = new ArrayList<>();
 	
 	
 	private Archvile() { }
@@ -74,8 +76,8 @@ public class Archvile implements Runnable, QueueTask {
 			isRunning = true;
 
             /* Set up the thread pool and blocking queue */
-			executor = Executors.newFixedThreadPool(10);
-			queue = new ArrayBlockingQueue<>(50);
+			executor = Executors.newFixedThreadPool(20);
+			queue = new ArrayBlockingQueue<>(100);
 
             /* Setup the thread-safe list */
 			urls = new CopyOnWriteArrayList<>();
@@ -154,12 +156,14 @@ public class Archvile implements Runnable, QueueTask {
 					PageProducer producer = new PageProducer(queue, urls.get(i));
 					Future<List<AnchorNode>> future = executor.submit(producer);
 					/* Get anchor nodes from future */
-					List<AnchorNode> anchors = future.get();
-					for (AnchorNode each : anchors) {
-						urls.add(each.getAbsoluteUrl());
-					}
-					pagesViewed++;
-					Thread.sleep(1000);
+                    if (future != null) {
+                        List<AnchorNode> anchors = future.get();
+                        for (AnchorNode each : anchors) {
+                            urls.add(each.getAbsoluteUrl());
+                        }
+                        urlsVisited.add(urls.get(i));
+                    }
+					Thread.sleep(500);
 				}
 			}
 		} catch (ExecutionException e) {
@@ -186,14 +190,15 @@ public class Archvile implements Runnable, QueueTask {
 	public int getUrlsSize() {
 		return urls.size();
 	}
-	
-	public int getPagesViewed() {
-		return pagesViewed;
+
+	public List<String> getUrlsVisited() {
+        Collections.sort(urlsVisited);
+        return urlsVisited;
 	}
 
 	public void setSearchTerms(String searchTerms) {
 		if (searchTerms != null) {
-			this.searchTerms = searchTerms.split(" ");	
+			this.searchTerms = searchTerms.split(" ");
 		}
 	}
 

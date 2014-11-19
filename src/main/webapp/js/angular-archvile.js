@@ -1,6 +1,6 @@
-var app = angular.module('archvile', ['archvileService', 'indexService', 'statisticsService', 'filters']);
+var app = angular.module('archvile', ['archvileService', 'indexService', 'statisticsService', 'filters', 'ui.bootstrap']);
 
-app.controller('ControlsCtrl', function ($scope, $interval, ArchvileService) {
+app.controller('SearchCtrl', function ($scope, $interval, ArchvileService) {
 
   /* Start Archvile */
   $scope.start = function () {
@@ -30,11 +30,11 @@ app.controller('ControlsCtrl', function ($scope, $interval, ArchvileService) {
       then(function (isRunning) {
         $scope.isRunning = isRunning;
       });
-  }, 1000);
+  }, 2000);
 
 });
 
-app.controller('StatsCtrl', function ($scope, $timeout, StatisticsService) {
+app.controller('StatsCtrl', function ($scope, $timeout, $interval, StatisticsService) {
   /* Set statistics data */
   function setStatistics(statistics) {
     $scope.statistics = statistics.data;
@@ -42,8 +42,8 @@ app.controller('StatsCtrl', function ($scope, $timeout, StatisticsService) {
   }
 
   /* Load statistics from the server */
-  $scope.loadStatistics = function loadStatistics() {
-    $scope.isLoading = true;
+  $scope.loadStatistics = function loadStatistics(showLoading) {
+    if (showLoading) $scope.isLoading = true;
     $timeout(function () {
       StatisticsService.loadStatistics().
         then(function (statistics) {
@@ -55,14 +55,18 @@ app.controller('StatsCtrl', function ($scope, $timeout, StatisticsService) {
     }, 200);
   };
 
+  $scope.refreshStatistics = function refreshStatistics() {
+    $scope.loadStatistics(true);
+  }
+
   /* Listen for broadcasts */
   $scope.$on('isRunning', function(event, isRunning) {
     $scope.isRunning = isRunning;
+    $scope.loadStatistics();
   });
 
   /* Load stats when the controller initializes */
   $scope.loadStatistics();
-  $scope.isSearchDisabled = false;
 
 });
 

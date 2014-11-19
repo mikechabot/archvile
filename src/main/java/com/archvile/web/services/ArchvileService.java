@@ -4,12 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.archvile.utils.StringUtil;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import org.apache.log4j.Logger;
 
 import com.archvile.Archvile;
-import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -80,7 +78,11 @@ public class ArchvileService extends JsonService {
             json.addProperty("lastRunDuration", archvile.getLastRunDuration());
             json.addProperty("currentRunDuration", archvile.getCurrentRunDuration());
             json.addProperty("urlsSize", archvile.getUrlsSize());
-            json.addProperty("pagesViewed", archvile.getPagesViewed());
+            JsonArray urlsVisited = new JsonArray();
+            for (String each : archvile.getUrlsVisited()) {
+                urlsVisited.add(new JsonPrimitive(each));
+            }
+            json.add("urlsVisited", urlsVisited);
             log.debug(json);
             return json;
         }
