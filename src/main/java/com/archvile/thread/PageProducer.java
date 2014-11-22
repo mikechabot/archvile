@@ -8,6 +8,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 
 import org.apache.log4j.Logger;
+import org.jsoup.HttpStatusException;
 import org.jsoup.nodes.Document;
 
 import com.archvile.node.nodes.AnchorNode;
@@ -35,19 +36,21 @@ public class PageProducer implements Callable<List<AnchorNode>> {
 	 * and return a list of anchor nodes
 	 */
 	@Override
-	public List<AnchorNode> call() throws Exception {
-		log.info("Starting a producer with url '" + url + "'");
+	public List<AnchorNode> call() {
+		log.debug("Starting a producer with url '" + url + "'");
 		List<AnchorNode> urls = new ArrayList<>(0);
 		try {
-			Document document = documentService.getDocumentFromUrl(url);
-			Page page = pageService.generatePageFromDocument(document);
-			if (page != null) {
-				urls = page.getAnchors();
-				queue.put(page);
-				synchronized (queue) {
-					queue.notify();
-				}	
-			}
+            Document document = documentService.getDocumentFromUrl(url);
+            Page page = pageService.generatePageFromDocument(document);
+            if (page != null) {
+                urls = page.getAnchors();
+                queue.put(page);
+                synchronized (queue) {
+                    queue.notify();
+                }
+            }
+        } catch (HttpStatusException e) {
+            log.error("HTTP exception: ", e);
 		} catch (SocketTimeoutException e) {
             log.error("Socket timeout ", e);
         } catch (IOException e) {
@@ -55,7 +58,6 @@ public class PageProducer implements Callable<List<AnchorNode>> {
 		} catch (InterruptedException e) {
 			log.error("PageProducer interrupted", e);
 		}
-		log.info("Returning " + urls.size() + " urls from '" + url + "'");
 		return urls;
 	}
 }

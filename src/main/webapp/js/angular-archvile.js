@@ -30,7 +30,9 @@ app.controller('SearchCtrl', function ($scope, $interval, ArchvileService) {
       then(function (isRunning) {
         $scope.isRunning = isRunning;
       });
-  }, 2000);
+  }, 5000);
+
+  $scope.isSearchDisabled = false;
 
 });
 
@@ -56,7 +58,7 @@ app.controller('StatsCtrl', function ($scope, $timeout, $interval, StatisticsSer
   };
 
   $scope.refreshStatistics = function refreshStatistics() {
-    $scope.loadStatistics(true);
+    $scope.loadStatistics();
   }
 
   /* Listen for broadcasts */

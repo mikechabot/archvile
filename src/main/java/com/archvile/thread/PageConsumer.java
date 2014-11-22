@@ -58,7 +58,7 @@ public class PageConsumer implements Runnable {
 			/* Poll for work */
 			Page page = queue.poll();
 			if (page != null) {
-				log.info("Adding '" + page.getUrl() + "' to the index...");
+				log.debug("Adding '" + page.getUrl() + "' to the index...");
 				indexService.addPageToIndex(page, searchTerms);
 			}
 			/* Wait until notification */

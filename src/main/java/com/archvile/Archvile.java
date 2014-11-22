@@ -76,8 +76,8 @@ public class Archvile implements Runnable, QueueTask {
 			isRunning = true;
 
             /* Set up the thread pool and blocking queue */
-			executor = Executors.newFixedThreadPool(20);
-			queue = new ArrayBlockingQueue<>(100);
+			executor = Executors.newFixedThreadPool(40);
+			queue = new ArrayBlockingQueue<>(200);
 
             /* Setup the thread-safe list */
 			urls = new CopyOnWriteArrayList<>();
@@ -156,14 +156,17 @@ public class Archvile implements Runnable, QueueTask {
 					PageProducer producer = new PageProducer(queue, urls.get(i));
 					Future<List<AnchorNode>> future = executor.submit(producer);
 					/* Get anchor nodes from future */
-                    if (future != null) {
-                        List<AnchorNode> anchors = future.get();
+
+                    List<AnchorNode> anchors = future.get();
+                    if (anchors != null) {
                         for (AnchorNode each : anchors) {
                             urls.add(each.getAbsoluteUrl());
                         }
                         urlsVisited.add(urls.get(i));
                     }
-					Thread.sleep(500);
+
+                    urls.remove(i);
+					Thread.sleep(100);
 				}
 			}
 		} catch (ExecutionException e) {
