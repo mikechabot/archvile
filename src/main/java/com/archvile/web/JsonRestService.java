@@ -1,6 +1,10 @@
-package com.archvile.web.services;
+package com.archvile.web;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,40 +17,104 @@ import com.archvile.utils.StringUtil;
 import com.google.gson.JsonElement;
 import org.apache.log4j.Logger;
 
-import com.google.gson.JsonObject;
+public abstract class JsonRestService extends HttpServlet {
 
-public abstract class JsonService extends HttpServlet {
+	private static Logger log = Logger.getLogger(JsonRestService.class);
 
-	private static final long serialVersionUID = -4363034303978130926L;
+    /**
+     * Map of Action objects corresponding to a request method (GET, POST, PUT, DELETE)
+     *
+     *  - If a request is received with a method type whose Action has not been registered
+     *    in the map, return a "501 Not Implemented" back to the browser.
+     *  - It is the responsibility of this Action to handle the request directly, or
+     *    route it (based on path) to an Action registered in a map corresponding to the method
+     *    type (e.g. GET requests are looked up in Map<String, Action> getActions)
+     */
+	private Map<HttpMethod, Action> requestActions = new HashMap<>();
 
-	private static Logger log = Logger.getLogger(JsonService.class);
-	
-	private Map<HttpMethod, Action> actions = new HashMap<>();
+    /**
+     * Map of Action objects corresponding to a URL mapping (e.g. "/statistics")
+     *
+     *  - Each method type has its own Map.
+     *  - Handle different URLs by registering an Action in the appropriate Map.
+     *  - These actions are only invoked by their method type parent defined in
+     *    Map<HttpMethod, Action> requestActions.
+     *  - If a request is received with URL mapping whose Action has not been registered
+     *    in the map, return a "501 Not Implemented" back to the browser.
+     */
+    protected Map<String, Action> getMappings= new HashMap<>();
+    protected Map<String, Action> postMappings = new HashMap<>();
+    protected Map<String, Action> putMappings = new HashMap<>();
+    protected Map<String, Action> deleteMappings = new HashMap<>();
 
     public abstract void init();
-    protected abstract void registerRestActions();
+    protected abstract void registerRequestActions();
+    protected abstract void registerMappings();
 
-	public void registerAction(Action action) {
-        actions.put(action.getMethodType(), action);
+    /**
+     * Put an action in the map
+     * @param action
+     */
+	public void registerRequestAction(Action action) {
+        requestActions.put(action.getMethodType(), action);
 	}
 
-	public boolean isActionImplemented(HttpMethod method) {
-		if (actions.get(method) == null) {
+    /**
+     * Check whether the action has been implemented
+     * @param method
+     * @return
+     */
+	public boolean isRequestActionImplemented(HttpMethod method) {
+		if (requestActions.get(method) == null) {
 			log.info(method + " not implemented");
 			return false;
 		}
 		return true;
 	}
-	
+
+    /**
+     * Register an action for a URL
+     * @param mapping
+     * @param action
+     */
+    public void registerGetMapping(String mapping, Action action) {
+        getMappings.put(mapping, action);
+    }
+
+    public void registerPostMapping(String mapping, Action action) {
+        postMappings.put(mapping, action);
+    }
+
+    public void registerPutMapping(String mapping, Action action) {
+        putMappings.put(mapping, action);
+    }
+
+    public void registerDeleteMapping(String mapping, Action action) {
+        deleteMappings.put(mapping, action);
+    }
+
+    /**
+     * Process the request and respond with JSON
+     * @param method
+     * @param request
+     * @param response
+     * @throws IOException
+     */
 	public void doExecute(HttpMethod method, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (isActionImplemented(method)) {
-			JsonElement json = actions.get(method).execute(request, response);
+		if (isRequestActionImplemented(method)) {
+			JsonElement json = requestActions.get(method).execute(request, response);
 			respond(response, json);
 		} else {
 			response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
 		}
 	}
 
+    /**
+     * Attach JSON to the response body
+     * @param response
+     * @param json
+     * @throws IOException
+     */
 	public void respond(HttpServletResponse response, JsonElement json) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter printout = response.getWriter();
@@ -103,7 +171,7 @@ public abstract class JsonService extends HttpServlet {
 	}
 
     /**
-     * Parse a string from the request body
+     * Parse String from request body
      * @param request
      * @return
      * @throws IOException

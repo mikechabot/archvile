@@ -1,4 +1,4 @@
-package com.archvile.web.services;
+package com.archvile.web;
 
 public enum HttpMethod {
 

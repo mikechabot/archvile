@@ -3,6 +3,9 @@ package com.archvile.web.services;
 import com.archvile.index.Index;
 import com.archvile.index.IndexEntry;
 
+import com.archvile.web.Action;
+import com.archvile.web.HttpMethod;
+import com.archvile.web.JsonRestService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -11,22 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Mike on 11/13/2014.
- */
-public class IndexService extends JsonService {
+public class IndexRestService extends JsonRestService {
 
     private Index index = new Index();
 
     @Override
     public void init() {
-        registerAction(new GetAction(HttpMethod.GET));
-        registerAction(new DeleteAction(HttpMethod.DELETE));
+        registerRequestActions();
     }
 
     @Override
-    protected void registerRestActions() {
-        //
+    protected void registerRequestActions() {
+        registerRequestAction(new GetAction(HttpMethod.GET));
+        registerRequestAction(new DeleteAction(HttpMethod.DELETE));
+    }
+
+    @Override
+    protected void registerMappings() {
+        // No mappings to define
     }
 
     public class GetAction extends Action {

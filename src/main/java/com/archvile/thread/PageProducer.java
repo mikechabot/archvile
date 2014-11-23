@@ -50,13 +50,13 @@ public class PageProducer implements Callable<List<AnchorNode>> {
                 }
             }
         } catch (HttpStatusException e) {
-            log.error("HTTP exception: ", e);
+            log.error("Bad response from URL " + url, e);
 		} catch (SocketTimeoutException e) {
-            log.error("Socket timeout ", e);
+            log.error("Socket timeout on URL " + url, e);
         } catch (IOException e) {
-			log.error("Error retrieving document from '" + url + "': ", e);
+			log.error("Error retrieving document from URL " + url, e);
 		} catch (InterruptedException e) {
-			log.error("PageProducer interrupted", e);
+			log.warn("PageProducer interrupted", e);
 		}
 		return urls;
 	}

@@ -3,40 +3,48 @@ package com.archvile.web.services;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.archvile.utils.StringUtil;
-import com.google.gson.*;
+import com.archvile.web.Action;
+import com.archvile.web.HttpMethod;
+import com.archvile.web.JsonRestService;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+
 import org.apache.log4j.Logger;
 
 import com.archvile.Archvile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class ArchvileService extends JsonService {
+public class ArchvileRestService extends JsonRestService {
 
-	private static final long serialVersionUID = -4208684745628055906L;
-
-	private static Logger log = Logger.getLogger(ArchvileService.class);
+	private static Logger log = Logger.getLogger(ArchvileRestService.class);
 	
 	private Archvile archvile = Archvile.getInstance();
 
-    private Map<String, Action> getActions = new HashMap<>();
-    private Map<String, Action> postActions = new HashMap<>();
-
     @Override
 	public void init() {
-        registerAction(new GetAction(HttpMethod.GET));
-        registerAction(new PostAction(HttpMethod.POST));
-        registerRestActions();
+        registerRequestActions();
+        registerMappings();
 	}
 
     @Override
-    protected void registerRestActions() {
-        getActions.put("/statistics", new GetStatisticsAction(HttpMethod.GET));
-        postActions.put("/start", new PostStartAction(HttpMethod.POST));
-        postActions.put("/stop", new PostStopAction(HttpMethod.POST));
-        postActions.put("/status", new PostStatusAction(HttpMethod.POST));
+    public void registerRequestActions() {
+        registerRequestAction(new GetAction(HttpMethod.GET));
+        registerRequestAction(new PostAction(HttpMethod.POST));
+    }
+
+    @Override
+    public void registerMappings() {
+        /* Register GET urls */
+        registerGetMapping("/statistics", new GetStatisticsAction(HttpMethod.GET));
+        /* Register POST urls */
+        registerPostMapping("/start", new PostStartAction(HttpMethod.POST));
+        registerPostMapping("/stop", new PostStopAction(HttpMethod.POST));
+        registerPostMapping("/status", new PostStatusAction(HttpMethod.POST));
     }
 
     public class GetAction extends Action {
@@ -44,11 +52,11 @@ public class ArchvileService extends JsonService {
         @Override
         public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
             String action = request.getPathInfo();
-            if (getActions.get(action) == null) {
+            if (getMappings.get(action) == null) {
                 response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
                 return null;
             } else {
-                return getActions.get(action).execute(request, response);
+                return getMappings.get(action).execute(request, response);
             }
         }
     }
@@ -58,11 +66,11 @@ public class ArchvileService extends JsonService {
         @Override
         public JsonElement execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
             String action = request.getPathInfo();
-            if (postActions.get(action) == null) {
+            if (postMappings.get(action) == null) {
                 response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
                 return null;
             } else {
-                return postActions.get(action).execute(request, response);
+                return postMappings.get(action).execute(request, response);
             }
         }
     }
@@ -98,13 +106,14 @@ public class ArchvileService extends JsonService {
                 String json = getRequestBody(request);
                 JsonObject object = new JsonParser().parse(json).getAsJsonObject();
 
-                /* Ensure a seed URL was provided */
+                /* Get the seed URL */
                 JsonElement seedUrl = object.get("seedUrl");
                 if (seedUrl == null || seedUrl.getAsString().isEmpty()) {
-                    log.error("Start request cannot be initiated without a seed URL");
-                    results.addProperty("success", false);
+                    log.info("Start request cannot be initiated without a seed URL");
+                    results.addProperty("isRunning", archvile.isRunning());
                     return results;
                 }
+
                 /* Get the search term */
                 JsonElement searchTerms = object.get("searchTerms");
 
@@ -115,7 +124,7 @@ public class ArchvileService extends JsonService {
 
             } catch (IllegalArgumentException e) {
                 log.error("Request body cannot be null", e);
-                results.addProperty("success", false);
+                results.addProperty("isRunning", archvile.isRunning());
             }
 
             /* Send back a results object */

@@ -17,17 +17,22 @@ public class StringUtil {
 		}
 	}
 
-	public static String sanitize(String value) {
-		return value.toLowerCase().replaceAll("[^a-zA-Z]", "");
-	}
-	
 	/**
 	 * Remove whitepaces from a string
 	 * @param value
 	 * @return String
 	 */
-	private static String removeWhitespaces(String value) {
+	public static String removeWhitespaces(String value) {
 		return CharMatcher.WHITESPACE.trimFrom(value);
 	}
+
+    /**
+     * Remove non-alphabetic characters from a string
+     * @param value
+     * @return String
+     */
+    public static String sanitize(String value) {
+        return value.toLowerCase().replaceAll("[^a-zA-Z]", "");
+    }
 	
 }

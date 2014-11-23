@@ -1,10 +1,9 @@
-package com.archvile.web.services;
+package com.archvile.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.io.IOException;
 

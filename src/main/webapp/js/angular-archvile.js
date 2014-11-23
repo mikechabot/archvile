@@ -69,6 +69,7 @@ app.controller('StatsCtrl', function ($scope, $timeout, $interval, StatisticsSer
 
   /* Load stats when the controller initializes */
   $scope.loadStatistics();
+  $scope.isCollapsed = true;
 
 });
 
@@ -81,14 +82,14 @@ app.controller('IndexCtrl', function ($scope, $timeout, IndexService) {
 
   /* Load index from the server */
   $scope.loadIndex = function() {
-    $scope.isLoading = true;
+//    $scope.isLoading = true;
     $timeout(function () {
       IndexService.loadIndex().
         then(function (index) {
           setIndex(index);
         }).
         finally(function () {
-          $scope.isLoading = false;
+//          $scope.isLoading = false;
         });
     }, 0);
   };

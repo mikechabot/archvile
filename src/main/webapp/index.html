@@ -90,7 +90,7 @@
                 <h3>Statistics</h3>
               </td>
               <td class="text-right">
-                <button ng-click="loadStatistics()" ng-class="{'glyphicon-download-alt': isLoading, 'glyphicon-refresh': !isLoading}" class="glyphicon btn btn-lg btn-default"></button>
+                <button ng-click="loadStatistics(true)" ng-class="{'glyphicon-download-alt': isLoading, 'glyphicon-refresh': !isLoading}" class="glyphicon btn btn-lg btn-default"></button>
               </td>
             </tr>
           </table>
@@ -154,8 +154,8 @@
               <th>URL</th>
             </tr>
             <tr ng-repeat="url in statistics.urlsVisited track by $index">
-              <td>{{$index+1}}</td>
-              <td>{{url}}</td>
+              <td>{{::$index+1}}</td>
+              <td><a href="{{url}}">{{::url}}</a></td>
             </tr>
           </table>
         </div>
@@ -164,7 +164,7 @@
     </div>
   </div>
 
-  <div ng-show="index.length > 0" ng-controller="IndexCtrl" class="panel panel-default">
+  <div ng-show="isRunning || index.length > 0" ng-controller="IndexCtrl" class="panel panel-default">
     <div class="panel-heading">
       <table style="width: 100%;">
         <tr>
@@ -188,16 +188,19 @@
         <th>Urls</th>
       </tr>
       <tr ng-hide="isLoading" ng-repeat="entry in index">
-        <td>{{entry.keyword}}</td>
-        <td>{{entry.count}}</td>
+        <td>{{::entry.keyword}}</td>
+        <td>{{::entry.count}}</td>
         <td>
           <ul>
-            <li ng-repeat="url in entry.urls"><a href="{{url}}">{{url}}</a></li>
+            <li ng-repeat="url in entry.urls"><a href="{{url}}">{{::url}}</a></li>
           </ul>
         </td>
       </tr>
-      <tr ng-show="isLoading">
+      <tr ng-if="isLoading">
         <td colspan="3" class="text-center"><img src="img/ajax_loader_gray_128.gif"></td>
+      </tr>
+      <tr ng-hide="index.length > 0">
+        <td colspan="3" class="text-center"><em>No entries</em></td>
       </tr>
     </table>
   </div>

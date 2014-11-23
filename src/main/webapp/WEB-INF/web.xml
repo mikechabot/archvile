@@ -5,9 +5,12 @@
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+  <listener>
+    <listener-class>com.archvile.Bootstrap</listener-class>
+  </listener>
   <servlet>
     <servlet-name>ArchvileService</servlet-name>
-	<servlet-class>com.archvile.web.services.ArchvileService</servlet-class>
+	<servlet-class>com.archvile.web.services.ArchvileRestService</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ArchvileService</servlet-name>
@@ -15,7 +18,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>IndexService</servlet-name>
-    <servlet-class>com.archvile.web.services.IndexService</servlet-class>
+    <servlet-class>com.archvile.web.services.IndexRestService</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>IndexService</servlet-name>
